@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import Alert from "../components/Alert"
 
 
@@ -31,6 +32,9 @@ const Register = () => {
         <button className="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded w-full">
             Registrarse
         </button>
+        <p className="mt-4 text-center">
+        ¿Ya estás registrado? <Link to="/login" className="text-green-500 underline">Loguéate</Link>
+        </p>
   </form>
 </div>
 
