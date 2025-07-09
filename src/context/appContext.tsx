@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, type ReactNode} from "react";
+import React, { createContext, useContext, useState, useEffect, type ReactNode } from "react";
 
 interface AppContextType {
   token: string | null;
@@ -7,10 +7,8 @@ interface AppContextType {
   setUsername: (username: string | null) => void;
 }
 
-// Contexto con valores por defecto
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-// Hook personalizado para usar el contexto
 export const useAppContext = () => {
   const context = useContext(AppContext);
   if (!context) {
@@ -24,8 +22,35 @@ interface AppProviderProps {
 }
 
 export const AppProvider = ({ children }: AppProviderProps) => {
-  const [token, setToken] = useState<string | null>(null);
-  const [username, setUsername] = useState<string | null>(null);
+  const [token, setTokenState] = useState<string | null>(null);
+  const [username, setUsernameState] = useState<string | null>(null);
+
+  // Al cargar el contexto, recuperar datos de localStorage si existen
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    const storedUsername = localStorage.getItem("username");
+    if (storedToken) setTokenState(storedToken);
+    if (storedUsername) setUsernameState(storedUsername);
+  }, []);
+
+  // Funciones que actualizan estado y localStorage
+  const setToken = (token: string | null) => {
+    if (token) {
+      localStorage.setItem("token", token);
+    } else {
+      localStorage.removeItem("token");
+    }
+    setTokenState(token);
+  };
+
+  const setUsername = (username: string | null) => {
+    if (username) {
+      localStorage.setItem("username", username);
+    } else {
+      localStorage.removeItem("username");
+    }
+    setUsernameState(username);
+  };
 
   return (
     <AppContext.Provider value={{ token, username, setToken, setUsername }}>

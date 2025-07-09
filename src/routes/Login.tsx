@@ -1,12 +1,16 @@
 import  { useState, type ChangeEvent, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { loginUser, type LoginData } from '../api/auth'
-import type { AlertMessage, LoginApiResponse } from '../types/types';
-import Alert from '../components/Alert';
 import type { AxiosError } from 'axios';
+import type { AlertMessage, LoginApiResponse } from '../types/types';
+import { loginUser, type LoginData } from '../api/auth'
+import Alert from '../components/Alert';
+import { useAppContext } from '../context/appContext';
 
 
 const Login = () => {
+
+    //usamos el context
+    const  {setToken,setUsername} = useAppContext();
 
     const [alert, setAlert] = useState<AlertMessage>({});
 
@@ -28,8 +32,8 @@ const Login = () => {
             //Intentar loguearse y obtener el token
             const respose = await loginUser(loginData);
             if(respose.status === 'success'){
-                console.log(respose.token)
-                console.log(respose.username)
+                setToken(respose.token)
+                setUsername(respose.username)
             }
         } catch (error) {
             const err = error as AxiosError<LoginApiResponse>;
