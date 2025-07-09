@@ -9,6 +9,7 @@ export interface RegisterApiResponse{
 
 export interface LoginApiResponse{
     status: 'success' | 'error';
+    message?: string;
     token: string;
     username: string;
 }

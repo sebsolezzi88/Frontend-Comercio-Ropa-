@@ -1,8 +1,9 @@
 import  { useState, type ChangeEvent, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import type { LoginData } from '../api/auth'
-import type { AlertMessage } from '../types/types';
+import { loginUser, type LoginData } from '../api/auth'
+import type { AlertMessage, LoginApiResponse } from '../types/types';
 import Alert from '../components/Alert';
+import type { AxiosError } from 'axios';
 
 
 const Login = () => {
@@ -16,14 +17,28 @@ const Login = () => {
     const handletChange = (e:ChangeEvent<HTMLInputElement>)=>{
           setLoginData({...loginData, [e.target.name]:e.target.value})
     }
-    const handletSubmit = (e:FormEvent) =>{
+    const handletSubmit = async (e:FormEvent) =>{
         try {
             e.preventDefault();
-            if(loginData.username.trim() === '' || loginData.password.trim()){
-            setAlert({color:"bg-red-500", message:"Debe completar ambos campos"})
-        }
+            if(loginData.username.trim() === '' || loginData.password.trim()===''){
+                setAlert({color:"bg-red-500", message:"Debe completar ambos campos"});
+                return;
+            }
+
+            //Intentar loguearse y obtener el token
+            const respose = await loginUser(loginData);
+            if(respose.status === 'success'){
+                console.log(respose.token)
+                console.log(respose.username)
+            }
         } catch (error) {
+            const err = error as AxiosError<LoginApiResponse>;
             
+                if (err.response?.data?.message) {
+                    setAlert({color: "bg-red-500",message: err.response.data.message});
+                } else {
+                    setAlert({color: "bg-red-500",message: "Error desconocido.",});
+                } 
         }finally{
             setTimeout(() => {
                 setAlert({color:"", message:""})
