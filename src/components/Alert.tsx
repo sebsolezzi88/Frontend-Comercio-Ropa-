@@ -1,9 +1,14 @@
-import React from 'react'
+import type { AlertMessage } from '../types/types'
 
-const Alert = () => {
+interface AlertProps {
+  alert: AlertMessage; 
+}
+
+const Alert = ({alert}:AlertProps) => {
+  
   return (
-    <div className='bg-red-500 uppercase p-2 font-bold text-center rounded-lg'>
-      Alerta
+    <div className={`${alert.color} uppercase p-2 font-bold text-center rounded-lg`}>
+      {alert.message}
     </div>
   )
 }
