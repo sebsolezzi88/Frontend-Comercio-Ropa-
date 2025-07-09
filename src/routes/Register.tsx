@@ -7,7 +7,9 @@ const Register = () => {
 
    <div className="flex justify-center items-center min-h-screen px-4">
     <form className="w-full sm:w-full md:w-1/2 lg:w-2/5 xl:w-1/3 bg-gray-700 p-6 rounded shadow-md">      
-        <Alert/>
+        <h2 className="text-center text-white text-xl font-bold mb-4">
+          Registrate para administrar 
+        </h2>
         <div className="mt-2">
         <label className="block text-green-500 font-bold uppercase" htmlFor="username">Username</label>
         <input className="bg-white rounded w-full p-2" type="text" id="username" />
