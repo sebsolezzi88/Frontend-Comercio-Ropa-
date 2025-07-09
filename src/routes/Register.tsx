@@ -25,7 +25,10 @@ const Register = () => {
     e.preventDefault();
     
     if(fieldsRegisterDataEmpty(register)){
-      setAlert({color:'bg-red-200', message:'Debe completar todos los campos'});
+      setAlert({color:'bg-red-500', message:'Debe completar todos los campos'});
+      setTimeout(() => {
+        setAlert({});
+      }, 2000);
     }
   }
 
@@ -33,10 +36,10 @@ const Register = () => {
 
    <div className="flex justify-center items-center min-h-screen px-4">
     <form onSubmit={handletSubmit} className="w-full sm:w-full md:w-1/2 lg:w-2/5 xl:w-1/3 bg-gray-700 p-6 rounded shadow-md">      
+        {alert.message ?  <Alert alert={alert} /> : null}
         <h2 className="text-center text-white text-xl font-bold mb-4">
           Registrate para administrar 
         </h2>
-        {alert.message ?  <Alert alert={alert} /> : null}
         <div className="mt-2">
         <label className="block text-green-500 font-bold uppercase" htmlFor="username">Username</label>
         <input onChange={handletChange} className="bg-white rounded w-full p-2 text-stone-950" type="text" name="username" />
