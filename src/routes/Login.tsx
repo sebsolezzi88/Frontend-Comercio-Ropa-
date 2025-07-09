@@ -25,12 +25,12 @@ const Login = () => {
             </h2>
             <div className="mt-2">
                 <label className="block text-green-500 font-bold uppercase" htmlFor="username">Username</label>
-                <input onChange={handletChange} className="bg-white rounded w-full p-2" type="text" id="username" />
+                <input onChange={handletChange} className="bg-white rounded w-full p-2 text-stone-950" type="text" id="username" />
             </div>
 
             <div className="mt-2">
                 <label className="block text-green-500 font-bold uppercase" htmlFor="password">Password</label>
-                <input onChange={handletChange} className="bg-white rounded w-full p-2" type="password" id="password" />
+                <input onChange={handletChange} className="bg-white rounded w-full p-2 text-stone-950" type="password" id="password" />
             </div>
 
             <button className="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded w-full">
