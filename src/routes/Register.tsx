@@ -3,6 +3,9 @@ import Alert from "../components/Alert"
 
 
 const Register = () => {
+
+  
+
   return (
 
    <div className="flex justify-center items-center min-h-screen px-4">
@@ -12,22 +15,27 @@ const Register = () => {
         </h2>
         <div className="mt-2">
         <label className="block text-green-500 font-bold uppercase" htmlFor="username">Username</label>
-        <input className="bg-white rounded w-full p-2" type="text" id="username" />
+        <input className="bg-white rounded w-full p-2 text-stone-950" type="text" id="username" />
+        </div>
+
+        <div className="mt-2">
+          <label className="block text-green-500 font-bold uppercase" htmlFor="email">Email</label>
+            <input className="bg-white rounded w-full p-2 text-stone-950" type="email" id="email" />
         </div>
 
         <div className="mt-2">
         <label className="block text-green-500 font-bold uppercase" htmlFor="password">Password</label>
-        <input className="bg-white rounded w-full p-2" type="password" id="password" />
+        <input className="bg-white rounded w-full p-2 text-stone-950" type="password" id="password" />
         </div>
 
         <div className="mt-2">
         <label className="block text-green-500 font-bold uppercase" htmlFor="repeat-password">Repetir Password</label>
-        <input className="bg-white rounded w-full p-2" type="password" id="repeat-password" />
+        <input className="bg-white rounded w-full p-2 text-stone-950" type="password" id="repeat-password" />
         </div>
 
         <div className="mt-2">
         <label className="block text-green-500 font-bold uppercase" htmlFor="security-password">Contraseña de seguridad</label>
-        <input className="bg-white rounded w-full p-2" type="password" id="security-password" />
+        <input className="bg-white rounded w-full p-2 text-stone-950" type="password" id="security-password" />
         <small className="text-white block mt-1">Código de seguridad del sitio.</small>
         </div>
 

@@ -1,7 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import type { RegisterData } from '../api/auth';
 
 const Login = () => {
+
+    const [register, setRegister] = useState<RegisterData>({
+        username:'',
+        email:'',
+        password:'',
+        passwordr:'',
+        passwordAuth:''
+    });
+    
   return (
     <div className="flex justify-center items-center min-h-screen px-4">
         <form className="w-full sm:w-full md:w-1/2 lg:w-2/5 xl:w-1/3 bg-gray-700 p-6 rounded shadow-md">      
