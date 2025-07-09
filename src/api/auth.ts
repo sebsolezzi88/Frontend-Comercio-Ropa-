@@ -11,6 +11,8 @@ export interface RegisterData{
     passwordAuth:string; 
 }
 
+type LoginData = Pick<RegisterData, "username" | "password">;
+
 export const registerUser = async (data:RegisterData)=> {
     const res = await axios.post<RegisterApiResponse>(`${URL}/admin/register`, data);
     return res.data;

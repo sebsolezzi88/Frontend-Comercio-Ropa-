@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Link } from "react-router-dom"
 import Alert from "../components/Alert"
-import axios, {isAxiosError,AxiosError} from "axios";
+import  {AxiosError} from "axios";
 import { registerUser, type RegisterData } from "../api/auth";
 import { fieldsRegisterDataEmpty } from "../utils/functions";
 import type { AlertMessage, RegisterApiResponse } from "../types/types";
