@@ -5,6 +5,7 @@ import Register from './routes/Register'
 import Login from './routes/Login'
 import Navbar from './components/Navbar'
 import Admin from './routes/Admin'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
  
@@ -15,7 +16,14 @@ function App() {
      <Routes>
         <Route path='/register' element={<Register/>}/>
         <Route path='/login' element={<Login/>}/>
-        <Route path='/admin' element={<Admin/>}/>
+        <Route 
+          path="/admin" 
+          element={
+            <ProtectedRoute>
+              <Admin />
+            </ProtectedRoute>
+          } 
+        />
      </Routes>
     </>
   )
