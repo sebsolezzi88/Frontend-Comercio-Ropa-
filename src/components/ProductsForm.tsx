@@ -1,9 +1,9 @@
 import React from 'react'
 
-const ProductForm = () => {
+const ProductsForm = () => {
   return (
     <div className='text-green-500'>ProductForm</div>
   )
 }
 
-export default ProductForm
+export default ProductsForm
