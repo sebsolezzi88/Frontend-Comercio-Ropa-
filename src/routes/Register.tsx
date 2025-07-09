@@ -1,9 +1,10 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Link } from "react-router-dom"
 import Alert from "../components/Alert"
+import axios, {isAxiosError,AxiosError} from "axios";
 import { registerUser, type RegisterData } from "../api/auth";
 import { fieldsRegisterDataEmpty } from "../utils/functions";
-import type { AlertMessage } from "../types/types";
+import type { AlertMessage, RegisterApiResponse } from "../types/types";
 
 
 const Register = () => {
@@ -29,22 +30,27 @@ const Register = () => {
       return;
     }
 
-    //Si todos los campos estan completos creamos la cuenta
     try {
       const response = await registerUser(register);
-      console.log(response!.status)
       if(response.status==="success"){
         setAlert({color:'bg-green-500', message:'Cuenta creada.'});
       }
     } catch (error) {
-      console.log(error);
-    }
-    finally{
-      setTimeout(() => {
-        setAlert({});
-      }, 2000);
-    }
+      const err = error as AxiosError<RegisterApiResponse>;
+
+        if (err.response?.data?.message) {
+          setAlert({color: "bg-red-500",message: err.response.data.message});
+        } else {
+          setAlert({color: "bg-red-500",message: "Error desconocido.",});
+        } 
+  } finally{
+    setTimeout(() => {
+      setAlert({});
+    }, 2000);
   }
+
+  }
+
 
   return (
 

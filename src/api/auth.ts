@@ -11,11 +11,7 @@ export interface RegisterData{
     passwordAuth:string; 
 }
 
-export const registerUser = async (data:RegisterData):Promise<RegisterApiResponse> => {
-  try {
+export const registerUser = async (data:RegisterData)=> {
     const res = await axios.post<RegisterApiResponse>(`${URL}/admin/register`, data);
     return res.data;
-  } catch (error) {
-    return { status: 'error', message: 'Error de conexión o del servidor' };
-  }
-};
+}
