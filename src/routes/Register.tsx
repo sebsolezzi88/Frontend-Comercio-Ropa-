@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Link } from "react-router-dom"
 import Alert from "../components/Alert"
-import type { RegisterData } from "../api/auth";
+import { registerUser, type RegisterData } from "../api/auth";
 import { fieldsRegisterDataEmpty } from "../utils/functions";
 import type { AlertMessage } from "../types/types";
 
@@ -21,11 +21,25 @@ const Register = () => {
   const handletChange = (e:ChangeEvent<HTMLInputElement>)=>{
       setRegister({...register, [e.target.name]:e.target.value})
   }
-  const handletSubmit = (e:FormEvent)=>{
+  const handletSubmit = async (e:FormEvent)=>{
     e.preventDefault();
     
     if(fieldsRegisterDataEmpty(register)){
       setAlert({color:'bg-red-500', message:'Debe completar todos los campos'});
+      return;
+    }
+
+    //Si todos los campos estan completos creamos la cuenta
+    try {
+      const response = await registerUser(register);
+      console.log(response!.status)
+      if(response.status==="success"){
+        setAlert({color:'bg-green-500', message:'Cuenta creada.'});
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    finally{
       setTimeout(() => {
         setAlert({});
       }, 2000);
