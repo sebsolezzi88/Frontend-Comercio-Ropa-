@@ -9,7 +9,6 @@ import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
  
-  //import.meta.env.VITE_NAME)
   return (
     <>
     <Navbar/>

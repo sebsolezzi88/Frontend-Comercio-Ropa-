@@ -1,5 +1,5 @@
 import  { useState, type ChangeEvent, type FormEvent } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import type { AxiosError } from 'axios';
 import type { AlertMessage, LoginApiResponse } from '../types/types';
 import { loginUser, type LoginData } from '../api/auth'
@@ -11,6 +11,8 @@ const Login = () => {
 
     //usamos el context
     const  {setToken,setUsername} = useAppContext();
+
+    const navigate = useNavigate();
 
     const [alert, setAlert] = useState<AlertMessage>({});
 
@@ -34,6 +36,7 @@ const Login = () => {
             if(respose.status === 'success'){
                 setToken(respose.token)
                 setUsername(respose.username)
+                navigate('/admin');
             }
         } catch (error) {
             const err = error as AxiosError<LoginApiResponse>;

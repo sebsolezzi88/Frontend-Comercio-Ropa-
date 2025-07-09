@@ -8,7 +8,11 @@ interface Props {
 }
 
 const ProtectedRoute = ({ children }: Props) => {
-  const { token } = useAppContext();
+  const { token,loading } = useAppContext();
+
+  if (loading) {
+    return <div className="text-center mt-10 text-gray-600">Cargando...</div>;
+  }
 
   // Si no hay token, redirige al login
   if (!token) {

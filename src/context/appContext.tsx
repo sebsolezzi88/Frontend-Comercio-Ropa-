@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, useEffect, type ReactNode }
 interface AppContextType {
   token: string | null;
   username: string | null;
+  loading: boolean;
   setToken: (token: string | null) => void;
   setUsername: (username: string | null) => void;
 }
@@ -24,6 +25,7 @@ interface AppProviderProps {
 export const AppProvider = ({ children }: AppProviderProps) => {
   const [token, setTokenState] = useState<string | null>(null);
   const [username, setUsernameState] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   // Al cargar el contexto, recuperar datos de localStorage si existen
   useEffect(() => {
@@ -31,6 +33,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     const storedUsername = localStorage.getItem("username");
     if (storedToken) setTokenState(storedToken);
     if (storedUsername) setUsernameState(storedUsername);
+    setLoading(false); 
   }, []);
 
   // Funciones que actualizan estado y localStorage
@@ -53,7 +56,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   };
 
   return (
-    <AppContext.Provider value={{ token, username, setToken, setUsername }}>
+    <AppContext.Provider value={{ token, username, loading, setToken, setUsername }}>
       {children}
     </AppContext.Provider>
   );
