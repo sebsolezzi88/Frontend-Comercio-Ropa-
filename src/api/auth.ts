@@ -17,3 +17,8 @@ export const registerUser = async (data:RegisterData)=> {
     const res = await axios.post<RegisterApiResponse>(`${URL}/admin/register`, data);
     return res.data;
 }
+
+export const loginUser = async (data:LoginData)=> {
+    const res = await axios.post<RegisterApiResponse>(`${URL}/admin/login`, data);
+    return res.data;
+}
