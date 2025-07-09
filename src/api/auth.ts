@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { RegisterApiResponse } from "../types/types";
+import type { LoginApiResponse, RegisterApiResponse } from "../types/types";
 
 const URL:string = import.meta.env.VITE_API_URL;
 
@@ -19,6 +19,6 @@ export const registerUser = async (data:RegisterData)=> {
 }
 
 export const loginUser = async (data:LoginData)=> {
-    const res = await axios.post<RegisterApiResponse>(`${URL}/admin/login`, data);
+    const res = await axios.post<LoginApiResponse>(`${URL}/admin/login`, data);
     return res.data;
 }
