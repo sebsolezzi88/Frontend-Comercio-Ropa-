@@ -25,4 +25,11 @@ export interface Category {
 export interface RegisterApiCategoryResponse extends RegisterApiResponse {
     category: Category;
 }
+//Para obtener todas las categorias
+export interface GetApiCategoriesResponse extends RegisterApiResponse {
+    category: Category[];
+}
+
+
+
 
