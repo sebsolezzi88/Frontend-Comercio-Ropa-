@@ -1,16 +1,36 @@
-import React, { useState, type ChangeEvent, type FormEvent } from 'react'
-import type { AlertMessage } from '../types/types';
-import { addCategory, type CategoryData } from '../api/categoty';
+import React, { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
+import type { AlertMessage, Category } from '../types/types';
+import { addCategory, getCategories, type CategoryData } from '../api/categoty';
 import Alert from './Alert';
 
 const Categories = () => {
 
   const [alert, setAlert] = useState<AlertMessage>({});
   const [categotyInput, setCategoryInput] = useState<CategoryData>({name:''});
+  const [categories, setCatergories] = useState<Category[]>([]); //arreglo para las categorias.
 
   const handletChange = (e:ChangeEvent<HTMLInputElement>) =>{
     setCategoryInput({...categotyInput,[e.target.name]: e.target.value})
   } 
+
+  //Use Effect para obtener las categorias
+  useEffect(() => {
+    const getCatecoriesFromApi = async () =>{
+      
+      try {
+
+        const response =  await getCategories();
+        if(response.status === 'success'){
+          setCatergories(response.categories);
+        }
+
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getCatecoriesFromApi();
+  }, [])
+  
 
   const handletSubmit = async (e:FormEvent) =>{
       e.preventDefault();
