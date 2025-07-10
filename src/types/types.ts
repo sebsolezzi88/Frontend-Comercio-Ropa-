@@ -31,6 +31,16 @@ export interface GetApiCategoriesResponse extends RegisterApiResponse {
     categories: Category[];
 }
 
+export interface Product {
+    id?: number;
+    name: string;
+    description: string;
+    urlImage: string;
+    categoryId: string;
+    createdAt?: string;
+    updatedAt?: string;
+​}
+
 
 
 
