@@ -46,7 +46,7 @@ const Categories = () => {
         const response = await addCategory(categotyInput);
          setCategoryInput({...categotyInput,name: ''}); //Limpiamos el input
          setCategories([...categories,response.category]); //actualizamos el estado de categoria
-         setAlert({color:'bg-green-500',message:'Categoría creada'});
+         setAlert({color:'bg-red-500',message:'Categoría creada'});
       } catch (error) {
         const err = error as AxiosError<LoginApiResponse>;
                 

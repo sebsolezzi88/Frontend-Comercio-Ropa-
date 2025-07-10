@@ -8,7 +8,7 @@ const Admin = () => {
 
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex  bg-gray-100">
       {/* Sidebar */}
       <aside className="w-64 bg-gray-900 shadow-lg p-4">
         <h2 className="text-2xl font-bold mb-6">Admin Panel</h2>
