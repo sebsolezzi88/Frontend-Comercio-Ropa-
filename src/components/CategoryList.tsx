@@ -5,6 +5,17 @@ interface CategoryListProps{
     categories: Category[];
 }
 
+const handletDelete = async (categoryId:number)=>{
+  console.log(categoryId)
+  try {
+    
+  } catch (error) {
+    
+  }finally{
+    
+  }
+}
+
 const CategoryList = ({categories}: CategoryListProps) => {
   return (
     <div className='ml-4 bg-gray-700 p-6 rounded shadow-md'>
@@ -22,7 +33,7 @@ const CategoryList = ({categories}: CategoryListProps) => {
                 Editar
                 </button>
                 <button
-                    
+                    onClick={()=>handletDelete(category.id)}
                     className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm"
                     >
                     Borrar
