@@ -2,6 +2,7 @@ import React, { useEffect, useState, type ChangeEvent, type FormEvent } from 're
 import type { AlertMessage, Category } from '../types/types';
 import { addCategory, getCategories, type CategoryData } from '../api/categoty';
 import Alert from './Alert';
+import CategoryList from './CategoryList';
 
 const Categories = () => {
 
@@ -73,6 +74,7 @@ const Categories = () => {
         </button>
         
   </form>
+    <CategoryList categories={categories}/>
 </div>
   )
 }

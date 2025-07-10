@@ -1,6 +1,11 @@
 import React from 'react'
+import type { Category } from '../types/types'
 
-const CategoryList = () => {
+interface CategoryListProps{
+    categories: Category[];
+}
+
+const CategoryList = ({categories}: CategoryListProps) => {
   return (
     <div>CategoryList</div>
   )
