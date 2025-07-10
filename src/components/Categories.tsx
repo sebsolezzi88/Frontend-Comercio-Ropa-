@@ -56,7 +56,7 @@ const Categories = () => {
 
 
   return (
-      <div className="flex justify-center items-center px-4">
+      <div className="flex justify-center items-start px-4">
     <form onSubmit={handletSubmit}  className="w-full sm:w-full md:w-1/2 lg:w-2/5 xl:w-1/3 bg-gray-700 p-6 rounded shadow-md">      
         
         {!alert.message ? (<h2 className="text-center text-white text-xl font-bold mb-4">
