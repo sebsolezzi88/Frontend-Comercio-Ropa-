@@ -8,7 +8,7 @@ const Categories = () => {
 
   const [alert, setAlert] = useState<AlertMessage>({});
   const [categotyInput, setCategoryInput] = useState<CategoryData>({name:''});
-  const [categories, setCatergories] = useState<Category[]>([]); //arreglo para las categorias.
+  const [categories, setCategories] = useState<Category[]>([]); //arreglo para las categorias.
 
   const handletChange = (e:ChangeEvent<HTMLInputElement>) =>{
     setCategoryInput({...categotyInput,[e.target.name]: e.target.value})
@@ -22,7 +22,7 @@ const Categories = () => {
 
         const response =  await getCategories();
         if(response.status === 'success'){
-          setCatergories(response.categories);
+          setCategories(response.categories);
         }
 
       } catch (error) {
@@ -74,7 +74,7 @@ const Categories = () => {
         </button>
         
   </form>
-    <CategoryList categories={categories}/>
+    <CategoryList categories={categories} setCategories={setCategories}/>
 </div>
   )
 }

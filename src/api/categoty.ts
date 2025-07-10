@@ -24,6 +24,11 @@ export const getCategories= async ()=> {
 }
 
 export const deleteCategory = async (categoryId:number) =>{
-  const res = await axios.delete(`${URL}/category/${categoryId}`);
+  const token = localStorage.getItem("token");
+  const res = await axios.delete(`${URL}/category/${categoryId}`,{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    });
   return res.data;
 }
