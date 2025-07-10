@@ -1,8 +1,9 @@
 import React, { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
-import type { AlertMessage, Category } from '../types/types';
+import type { AlertMessage, Category, LoginApiResponse } from '../types/types';
 import { addCategory, getCategories, type CategoryData } from '../api/categoty';
 import Alert from './Alert';
 import CategoryList from './CategoryList';
+import type { AxiosError } from 'axios';
 
 const Categories = () => {
 
@@ -41,12 +42,19 @@ const Categories = () => {
           return;
         }
 
-        //Guardamo la categoria
+        //Guardamos la categoria
         const response = await addCategory(categotyInput);
-        console.log(response.category.name);
-         setCategoryInput({...categotyInput,name: ''});
+         setCategoryInput({...categotyInput,name: ''}); //Limpiamos el input
+         setCategories([...categories,response.category]); //actualizamos el estado de categoria
+         setAlert({color:'bg-green-500',message:'Categoría creada'});
       } catch (error) {
-        
+        const err = error as AxiosError<LoginApiResponse>;
+                
+        if (err.response?.data?.message) {
+            setAlert({color: "bg-red-500",message: err.response.data.message});
+          } else {
+            setAlert({color: "bg-red-500",message: "Error desconocido.",});
+          } 
       } finally{
         setTimeout(() => {
           setAlert({});
