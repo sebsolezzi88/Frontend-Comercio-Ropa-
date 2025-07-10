@@ -1,14 +1,16 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
 import Alert from './Alert'
-import type { AlertMessage, Category, Product } from '../types/types';
+import type { AlertMessage, Category, LoginApiResponse, ProductData } from '../types/types';
 import { getCategories } from '../api/categoty';
+import type { AxiosError } from 'axios';
+import {  addProduct } from '../api/products';
 
 const ProductsForm = () => {
 
     
     const [categories, setCategories] = useState<Category[]>([]); //arreglo para las categorias.
     const [alert, setAlert] = useState<AlertMessage>({color:'',message:''}); //Estado de mensaje de alerta
-    const [product, setProduct] = useState<Product>({name:'',description:'',urlImage:'',categoryId:''}); //Estado del producto
+    const [product, setProduct] = useState<ProductData>({name:'',description:'',urlImage:'',categoryId:''}); //Estado del producto
 
     //Use Effect para obtener las categorias
       useEffect(() => {
@@ -48,9 +50,21 @@ const ProductsForm = () => {
           return;
         }
 
-        console.log(product);  // Ya validado
+        // Ya validado
+        const response = await addProduct(product);
+        if (response.status === 'success'){
+           setAlert({color: "bg-green-500",message: 'Producto Creado'});
+           setProduct({name:'',description:'',urlImage:'',categoryId:''});
+        }
+
       } catch (error) {
-        console.log(error);
+        const err = error as AxiosError<LoginApiResponse>;
+        console.log(error)
+        if (err.response?.data?.message) {
+          setAlert({color: "bg-red-500",message: err.response.data.message});
+        } else {
+          setAlert({color: "bg-red-500",message: "Error desconocido.",});
+        } 
       }
       finally{
         setTimeout(() => setAlert({}), 2000);
