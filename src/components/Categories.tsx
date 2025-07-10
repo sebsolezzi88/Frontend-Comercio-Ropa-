@@ -1,9 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, type ChangeEvent } from 'react'
 import type { AlertMessage } from '../types/types';
+import type { CategoryData } from '../api/categoty';
 
 const Categories = () => {
 
   const [alert, setAlert] = useState<AlertMessage>({});
+  const [categotyInput, setCategoryInput] = useState<CategoryData>({name:''});
+
+  const handletChange = (e:ChangeEvent<HTMLInputElement>) =>{
+    setCategoryInput({...categotyInput,[e.target.name]: e.target.value})
+  } 
+
+
   return (
       <div className="flex justify-center items-center px-4">
     <form  className="w-full sm:w-full md:w-1/2 lg:w-2/5 xl:w-1/3 bg-gray-700 p-6 rounded shadow-md">      
@@ -13,7 +21,7 @@ const Categories = () => {
         </h2>
         <div className="mt-2">
         <label className="block text-green-500 font-bold uppercase" htmlFor="username">Categoría</label>
-        <input  className="bg-white rounded w-full p-2 text-stone-950" type="text" name="category" />
+        <input value={categotyInput.name} onChange={handletChange}   className="bg-white rounded w-full p-2 text-stone-950" type="text" name="name" id="categoryName" />
         </div>
 
         <button className="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded w-full">
