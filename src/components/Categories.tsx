@@ -1,6 +1,6 @@
 import React, { useState, type ChangeEvent, type FormEvent } from 'react'
 import type { AlertMessage } from '../types/types';
-import type { CategoryData } from '../api/categoty';
+import { addCategory, type CategoryData } from '../api/categoty';
 import Alert from './Alert';
 
 const Categories = () => {
@@ -19,6 +19,11 @@ const Categories = () => {
           setAlert({color:'bg-red-500',message:'Complete el campo'});
           return;
         }
+
+        //Guardamo la categoria
+        const response = await addCategory(categotyInput);
+        console.log(response);
+         setCategoryInput({...categotyInput,name: ''});
       } catch (error) {
         
       } finally{
