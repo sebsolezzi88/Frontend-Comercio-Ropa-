@@ -13,3 +13,9 @@ export interface LoginApiResponse{
     token: string;
     username: string;
 }
+
+//Para la respuesta de la categoria
+export interface RegisterApiCategoryResponse extends RegisterApiResponse {
+    category: string;
+}
+
