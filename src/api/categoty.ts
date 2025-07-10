@@ -8,6 +8,11 @@ export interface CategoryData{
 }
 
 export const addCategory= async (data:CategoryData)=> {
-    const res = await axios.post<RegisterApiCategoryResponse>(`${URL}/category`, data);
+    const token = localStorage.getItem("token");
+    const res = await axios.post<RegisterApiCategoryResponse>(`${URL}/category`, data,{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    });
     return res.data;
 }

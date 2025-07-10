@@ -22,7 +22,7 @@ const Categories = () => {
 
         //Guardamo la categoria
         const response = await addCategory(categotyInput);
-        console.log(response);
+        console.log(response.category.name);
          setCategoryInput({...categotyInput,name: ''});
       } catch (error) {
         

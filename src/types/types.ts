@@ -14,8 +14,15 @@ export interface LoginApiResponse{
     username: string;
 }
 
+export interface Category {
+    id: number;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+​}
+
 //Para la respuesta de la categoria
 export interface RegisterApiCategoryResponse extends RegisterApiResponse {
-    category: string;
+    category: Category;
 }
 
