@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { RegisterApiCategoryResponse } from "../types/types";
+import type { GetApiCategoriesResponse, RegisterApiCategoryResponse } from "../types/types";
 
 const URL:string = import.meta.env.VITE_API_URL;
 
@@ -14,5 +14,11 @@ export const addCategory= async (data:CategoryData)=> {
         Authorization: `Bearer ${token}`,
       }
     });
+    return res.data;
+}
+
+export const getCategories= async ()=> {
+
+    const res = await axios.get<GetApiCategoriesResponse>(`${URL}/category`);
     return res.data;
 }
