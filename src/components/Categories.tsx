@@ -1,6 +1,7 @@
-import React, { useState, type ChangeEvent } from 'react'
+import React, { useState, type ChangeEvent, type FormEvent } from 'react'
 import type { AlertMessage } from '../types/types';
 import type { CategoryData } from '../api/categoty';
+import Alert from './Alert';
 
 const Categories = () => {
 
@@ -11,14 +12,32 @@ const Categories = () => {
     setCategoryInput({...categotyInput,[e.target.name]: e.target.value})
   } 
 
+  const handletSubmit = async (e:FormEvent) =>{
+      e.preventDefault();
+      try {
+        if(categotyInput.name.trim() === ''){
+          setAlert({color:'bg-red-500',message:'Complete el campo'});
+          return;
+        }
+      } catch (error) {
+        
+      } finally{
+        setTimeout(() => {
+          setAlert({});
+        }, 2000);
+      }
+  }
+
 
   return (
       <div className="flex justify-center items-center px-4">
-    <form  className="w-full sm:w-full md:w-1/2 lg:w-2/5 xl:w-1/3 bg-gray-700 p-6 rounded shadow-md">      
+    <form onSubmit={handletSubmit}  className="w-full sm:w-full md:w-1/2 lg:w-2/5 xl:w-1/3 bg-gray-700 p-6 rounded shadow-md">      
         
-        <h2 className="text-center text-white text-xl font-bold mb-4">
-          Registrate una categoría
-        </h2>
+        {!alert.message ? (<h2 className="text-center text-white text-xl font-bold mb-4">
+            Registrate una categoría
+          </h2>) :<Alert alert={alert}/>  
+          }
+        
         <div className="mt-2">
         <label className="block text-green-500 font-bold uppercase" htmlFor="username">Categoría</label>
         <input value={categotyInput.name} onChange={handletChange}   className="bg-white rounded w-full p-2 text-stone-950" type="text" name="name" id="categoryName" />
