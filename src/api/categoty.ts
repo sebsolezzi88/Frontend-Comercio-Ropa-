@@ -22,3 +22,8 @@ export const getCategories= async ()=> {
     const res = await axios.get<GetApiCategoriesResponse>(`${URL}/category`);
     return res.data;
 }
+
+export const deleteCategory = async (categoryId:number) =>{
+  const res = await axios.delete(`${URL}/category/${categoryId}`);
+  return res.data;
+}
