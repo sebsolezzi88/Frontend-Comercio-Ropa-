@@ -6,6 +6,7 @@ export interface RegisterApiResponse{
     status: 'success' | 'error';
     message: string;
 }
+export interface ApiResponse extends RegisterApiResponse{}
 
 export interface LoginApiResponse{
     status: 'success' | 'error';
