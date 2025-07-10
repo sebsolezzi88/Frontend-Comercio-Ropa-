@@ -45,19 +45,29 @@ const ProductsForm = () => {
         </div>
 
         <div className="mt-2">
-        <label className="block text-green-500 font-bold uppercase" htmlFor="password">Url Imagen</label>
-        <input  className="bg-white rounded w-full p-2 text-stone-950" type="password" name="urlImage" />
+        <label className="block text-green-500 font-bold uppercase" htmlFor="urlimage">Url Imagen</label>
+        <input  className="bg-white rounded w-full p-2 text-stone-950" type="text" name="urlImage" />
         <small className="text-white block mt-1">Puede subir imagenes a <a className='text-green-500' href="https://imgur.com/" target='_blank'>imgur.com</a> </small>
         </div>
 
         <div className="mt-2">
         <label className="block text-green-500 font-bold uppercase" htmlFor="security-password">Categoría</label>
-        <input  className="bg-white rounded w-full p-2 text-stone-950" type="password" name="categoryId" />
+        <select className='w-full font-bold uppercase' name="categoryId" id="category">
+          <option className="bg-white rounded w-full p-2 text-stone-950 font-bold uppercase" value="">-- Seleccione una categoría ---</option>
+          {categories.map(category =>(
+             <option className="bg-white text-stone-950 font-bold uppercase" 
+             key={category.id} 
+             value={category.id}>
+              {category.name}
+              </option>
+          ))}
+        </select>
         </div>
 
         <button className="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded w-full">
             Guardar Producto
         </button>
+
         
   </form>
 </div>
