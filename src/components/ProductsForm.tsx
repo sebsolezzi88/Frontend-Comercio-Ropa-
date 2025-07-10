@@ -32,16 +32,38 @@ const ProductsForm = () => {
       setProduct({...product,[e.target.name]: e.target.value})
     }
     const handletSubmit = async (e:FormEvent)=>{
-      e.preventDefault();
-      console.log(product);
+      try {
+        e.preventDefault();
+        // Validación simple
+        if (
+          product.name.trim() === '' ||
+          product.description.trim() === '' ||
+          product.urlImage.trim() === '' ||
+          product.categoryId.trim() === ''
+        ) {
+          setAlert({
+            color: 'bg-red-500',
+            message: 'Todos los campos son obligatorios'
+          });
+          return;
+        }
+
+        console.log(product);  // Ya validado
+      } catch (error) {
+        console.log(error);
+      }
+      finally{
+        setTimeout(() => setAlert({}), 2000);
+      }
     }
   return (
     <div className="flex justify-center items-start min-h-screen px-4">
     <form onSubmit={handletSubmit} className="w-full sm:w-full md:w-1/2 lg:w-2/5 xl:w-1/3 bg-gray-700 p-6 rounded shadow-md">      
-        {alert.message ?  <Alert alert={alert} /> : null}
+        {alert.message ?  <Alert alert={alert} /> : 
         <h2 className="text-center text-white text-xl font-bold mb-4">
           Agrega nuevos productos
-        </h2>
+        </h2>}
+        
         <div className="mt-2">
         <label className="block text-green-500 font-bold uppercase" htmlFor="username">Nombre</label>
         <input onChange={handletChange} value={product.name}  className="bg-white rounded w-full p-2 text-stone-950" type="text" name="name" id='productname' />
