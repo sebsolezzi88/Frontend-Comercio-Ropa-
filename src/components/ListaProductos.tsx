@@ -11,6 +11,16 @@ const ListaProductos = () => {
     const [products, setProducts] = useState<Product[]>([]); //arreglo para las categorias.
     const [selectedCategory, setSelectedCategory] = useState(''); //variable para filtrar categorias
 
+    //states para editar un producto
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [productToEdit, setProductToEdit] = useState<Product>({
+            id: 0,
+            name: '',
+            description: '',
+            urlImage: '',
+            categoryId: 0
+            });
+
     useEffect(() => {
         const getFromApi = async () =>{
           
@@ -36,6 +46,13 @@ const ListaProductos = () => {
         }
         getFromApi();
       }, [])
+
+    
+    //Funcion para abrir el modal e editar
+    const handleEditClick = (product: Product) => {
+        setProductToEdit(product);
+        setIsModalOpen(true);
+    };
 
     const filteredProducts = selectedCategory
         ? products.filter((product) => product.categoryId === parseInt(selectedCategory))
@@ -73,16 +90,130 @@ const ListaProductos = () => {
                 <p>{product.description}</p>
                 <p>categoria:{product.categoryId}</p>
                 <div className='flex gap-2'>
-                    <button className='mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded'>Editar</button>
+                    <button onClick={() => handleEditClick(product)} className='mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded'>Editar</button>
                     <button className='mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded'>Eliminar</button>
                 </div>
             </div>
         ))}
-        
-
     </div>
+
+    {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50">
+            <form
+            onSubmit={(e) => {
+                e.preventDefault();
+                // Aquí lógica para enviar actualización
+                console.log("Producto actualizado:", productToEdit);
+                setIsModalOpen(false);
+            }}
+            className="w-full sm:w-full md:w-1/2 lg:w-2/5 xl:w-1/3 bg-gray-700 p-6 rounded shadow-md relative"
+            >
+            <button
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+                className="absolute top-2 right-4 text-white text-2xl font-bold"
+            >
+                &times;
+            </button>
+
+            <h2 className="text-center text-white text-xl font-bold mb-4">
+                Editar producto
+            </h2>
+
+            <div className="mt-2">
+                <label className="block text-green-500 font-bold uppercase" htmlFor="productname">
+                Nombre
+                </label>
+                <input
+                onChange={(e) => setProductToEdit({ ...productToEdit, name: e.target.value })}
+                value={productToEdit.name}
+                className="bg-white rounded w-full p-2 text-stone-950"
+                type="text"
+                name="name"
+                id="productname"
+                />
+            </div>
+
+            <div className="mt-2">
+                <label className="block text-green-500 font-bold uppercase" htmlFor="description">
+                Descripción
+                </label>
+                <input
+                onChange={(e) => setProductToEdit({ ...productToEdit, description: e.target.value })}
+                value={productToEdit.description}
+                className="bg-white rounded w-full p-2 text-stone-950"
+                type="text"
+                name="description"
+                />
+            </div>
+
+            <div className="mt-2">
+                <label className="block text-green-500 font-bold uppercase" htmlFor="urlImage">
+                Url Imagen
+                </label>
+                <input
+                onChange={(e) => setProductToEdit({ ...productToEdit, urlImage: e.target.value })}
+                value={productToEdit.urlImage}
+                className="bg-white rounded w-full p-2 text-stone-950"
+                type="text"
+                name="urlImage"
+                />
+                <small className="text-white block mt-1">
+                Puede subir imágenes a{" "}
+                <a className="text-green-500" href="https://imgur.com/" target="_blank" rel="noreferrer">
+                    imgur.com
+                </a>
+                </small>
+            </div>
+
+            <div className="mt-2">
+                <label className="block text-green-500 font-bold uppercase" htmlFor="categoryId">
+                Categoría
+                </label>
+                <select
+                onChange={(e) =>
+                    setProductToEdit({
+                    ...productToEdit,
+                    categoryId: parseInt(e.target.value)
+                    })
+                }
+                value={productToEdit.categoryId ?? ''}
+                className="w-full font-bold uppercase"
+                name="categoryId"
+                id="categoryId"
+                >
+                <option value="">-- Seleccione una categoría ---</option>
+                {categories.map((category) => (
+                    <option
+                    className="bg-white text-stone-950 font-bold uppercase"
+                    key={category.id}
+                    value={category.id}
+                    >
+                    {category.name}
+                    </option>
+                ))}
+                </select>
+            </div>
+
+            <div className="flex justify-end mt-4 gap-4">
+                <button
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+                className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded"
+                >
+                Cancelar
+                </button>
+                <button
+                type="submit"
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+                >
+                Guardar cambios
+                </button>
+            </div>
+            </form>
+        </div>
+        )}
     </>
-     
   )
 }
 

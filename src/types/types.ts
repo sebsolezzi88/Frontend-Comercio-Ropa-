@@ -45,8 +45,8 @@ export interface ProductData {
 ​}
 export interface Product extends ProductData{
     id: number;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 
