@@ -48,6 +48,9 @@ export interface Product extends ProductData{
     createdAt?: Date;
     updatedAt?: Date;
 }
+export interface UpdateApiProductResponse extends ApiResponse{
+    product: Product;
+}
 
 
 
