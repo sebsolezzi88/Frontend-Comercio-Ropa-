@@ -1,7 +1,7 @@
 import React, { useEffect, useState, type FormEvent } from 'react'
 import type { AlertMessage, Category, LoginApiResponse, Product } from '../types/types';
 import { getCategories } from '../api/categoty';
-import { getProducts, updateProduct } from '../api/products';
+import { deleteProduct, getProducts, updateProduct } from '../api/products';
 import type { AxiosError } from 'axios';
 import Alert from './Alert';
 
@@ -65,6 +65,33 @@ const ListaProductos = () => {
         setProductToDelete(product);
         setIsDeleteModalOpen(true);
     };
+    const confirmDelete = async () => {
+    if (!productToDelete) return;
+
+    try {
+        const response = await deleteProduct(productToDelete); 
+        if (response.status === 'success') {
+            setProducts(prev => prev.filter(p => p.id !== productToDelete.id));
+            setAlert({ color: 'bg-green-500', message: 'Producto eliminado correctamente' });
+        } else {
+            setAlert({ color: 'bg-red-500', message: 'Error al eliminar el producto' });
+        }
+    } catch (error) {
+        const err = error as AxiosError<LoginApiResponse>;
+        console.log(error)
+        if (err.response?.data?.message) {
+            setAlert({color: "bg-red-500",message: err.response.data.message});
+        } else {
+            setAlert({color: "bg-red-500",message: "Error desconocido.",});
+        } 
+    } finally {
+        setIsDeleteModalOpen(false);
+        setProductToDelete(null);
+        setTimeout(() => {
+                setAlert({color: '',message: ''});
+            }, 2000);
+    }
+};
 
     const handletUpdate = async (e:FormEvent) =>{
         try {
@@ -108,7 +135,7 @@ const ListaProductos = () => {
         : products;
   return (
     <>
-       <h2 className='text-2xl'>Productos</h2>
+    {alert.message ?  <Alert alert={alert} /> : <h2 className='text-2xl'>Productos</h2> }
        <div className="flex items-center gap-2 my-4">
             <h3 className="text-lg font-semibold">Filtrar por</h3>
             <select 
@@ -255,6 +282,34 @@ const ListaProductos = () => {
                 </button>
             </div>
             </form>
+        </div>
+        )}
+
+    {isDeleteModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
+            <div className="bg-white p-6 rounded shadow-md text-center w-80">
+            <h3 className="text-lg font-bold text-gray-800 mb-4">
+                ¿Estás seguro que deseas eliminar este producto?
+            </h3>
+            <p className="text-gray-700 mb-4">{productToDelete?.name}</p>
+            <div className="flex justify-center gap-4">
+                <button
+                onClick={confirmDelete}
+                className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
+                >
+                Sí, eliminar
+                </button>
+                <button
+                onClick={() => {
+                    setIsDeleteModalOpen(false);
+                    setProductToDelete(null);
+                }}
+                className="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded"
+                >
+                Cancelar
+                </button>
+            </div>
+            </div>
         </div>
         )}
     </>
