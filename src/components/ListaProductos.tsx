@@ -13,6 +13,11 @@ const ListaProductos = () => {
     const [products, setProducts] = useState<Product[]>([]); //arreglo para los productos.
     const [selectedCategory, setSelectedCategory] = useState(''); //variable para filtrar categorias
 
+    //Estados para eliminar un producto
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [productToDelete, setProductToDelete] = useState<Product | null>(null);
+
+
     //states para editar un producto
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [productToEdit, setProductToEdit] = useState<Product>({
@@ -54,6 +59,11 @@ const ListaProductos = () => {
     const handleEditClick = (product: Product) => {
         setProductToEdit(product);
         setIsModalOpen(true);
+    };
+    //Funcion para abrir el modal y eliminar
+    const handleDeleteClick = (product: Product) => {
+        setProductToDelete(product);
+        setIsDeleteModalOpen(true);
     };
 
     const handletUpdate = async (e:FormEvent) =>{
@@ -127,10 +137,9 @@ const ListaProductos = () => {
                 <img src={product.urlImage} alt={product.name} />
                 <h4 className='text-xl'>{product.name}</h4>
                 <p>{product.description}</p>
-                <p>categoria:{product.categoryId}</p>
                 <div className='flex gap-2'>
                     <button onClick={() => handleEditClick(product)} className='mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded'>Editar</button>
-                    <button className='mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded'>Eliminar</button>
+                    <button onClick={() => handleDeleteClick(product)} className='mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded'>Eliminar</button>
                 </div>
             </div>
         ))}
