@@ -1,26 +1,39 @@
 import React, { useEffect, useState } from 'react'
-import type { Category } from '../types/types';
+import type { AlertMessage, Category, LoginApiResponse, Product } from '../types/types';
 import { getCategories } from '../api/categoty';
+import { getProducts } from '../api/products';
+import type { AxiosError } from 'axios';
 
 const ListaProductos = () => {
 
+    const [alert, setAlert] = useState<AlertMessage>({});
     const [categories, setCategories] = useState<Category[]>([]); //arreglo para las categorias.
+    const [products, setProducts] = useState<Product[]>([]); //arreglo para las categorias.
 
     useEffect(() => {
-        const getCatecoriesFromApi = async () =>{
+        const getFromApi = async () =>{
           
           try {
     
             const responseCat =  await getCategories();
-            if(responseCat.status === 'success'){
+            const responsePro = await getProducts();
+            if(responseCat.status === 'success' && responsePro.status === 'success'){
               setCategories(responseCat.categories);
+              setProducts(responsePro.products);
+
             }
     
           } catch (error) {
+            const err = error as AxiosError<LoginApiResponse>;
             console.log(error);
+            if (err.response?.data?.message) {
+                setAlert({color: "bg-red-500",message: err.response.data.message});
+            } else {
+                setAlert({color: "bg-red-500",message: "Error desconocido.",});
+            } 
           }
         }
-        getCatecoriesFromApi();
+        getFromApi();
       }, [])
   return (
     <>
@@ -29,21 +42,31 @@ const ListaProductos = () => {
             <h3 className="text-lg font-semibold">Filtrar por</h3>
             <select className="font-bold uppercase px-2 py-1 rounded" name="categoryId" id="category">
                 <option value="">Todas</option>
-                <option value="buzos">Buzos</option>
+            {categories.map(category =>(
+                <option 
+                    className="bg-white text-stone-950 font-bold uppercase" 
+                    key={category.id} 
+                    value={category.id}>
+                    {category.name}
+              </option>
+          ))}
             </select>
         </div>
        
         <div className="flex gap-3 mt-4">
 
-        <div className='bg-gray-500 w-50 p-2 '>
-            <img src="https://i.imgur.com/M0LumNT.jpeg" alt="" />
-            <h4 className='text-xl'>Remera React</h4>
-            <p>Buzo negro de algodon. Con estampa termosellada</p>
-            <div className='flex gap-2'>
-                <button className='mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded'>Editar</button>
-                <button className='mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded'>Eliminar</button>
+          {products.map( product => (
+            <div className='bg-gray-500 w-50 p-2 '>
+                <img src={product.urlImage} alt={product.name} />
+                <h4 className='text-xl'>{product.name}</h4>
+                <p>{product.description}</p>
+                <div className='flex gap-2'>
+                    <button className='mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded'>Editar</button>
+                    <button className='mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded'>Eliminar</button>
+                </div>
             </div>
-        </div>
+        ))}
+        
 
     </div>
     </>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { ApiResponse, ProductData } from "../types/types";
+import type { ApiResponse, GetApiProductsResponse, ProductData } from "../types/types";
 
 const URL:string = import.meta.env.VITE_API_URL;
 
@@ -18,7 +18,7 @@ export const addProduct= async (product:ProductData)=> {
 
 export const getProducts= async ()=> {
 
-    const res = await axios.post<ApiResponse>(`${URL}/product`);
+    const res = await axios.get<GetApiProductsResponse>(`${URL}/product`);
     
     return res.data;
 }
