@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, type FormEvent } from 'react'
 import type { AlertMessage, Category, LoginApiResponse, Product } from '../types/types';
 import { getCategories } from '../api/categoty';
-import { getProducts } from '../api/products';
+import { getProducts, updateProduct } from '../api/products';
 import type { AxiosError } from 'axios';
+import Alert from './Alert';
+
 
 const ListaProductos = () => {
 
     const [alert, setAlert] = useState<AlertMessage>({});
     const [categories, setCategories] = useState<Category[]>([]); //arreglo para las categorias.
-    const [products, setProducts] = useState<Product[]>([]); //arreglo para las categorias.
+    const [products, setProducts] = useState<Product[]>([]); //arreglo para los productos.
     const [selectedCategory, setSelectedCategory] = useState(''); //variable para filtrar categorias
 
     //states para editar un producto
@@ -54,6 +56,43 @@ const ListaProductos = () => {
         setIsModalOpen(true);
     };
 
+    const handletUpdate = async (e:FormEvent) =>{
+        try {
+            e.preventDefault();
+            if (
+            productToEdit.name.trim() === '' ||
+            productToEdit.description.trim() === '' ||
+            productToEdit.urlImage.trim() === '' ||
+            productToEdit.categoryId === null
+            ) {
+          setAlert({
+            color: 'bg-red-500',
+            message: 'Todos los campos son obligatorios'
+          });
+          return;
+        }
+            const response = await updateProduct(productToEdit);
+            if(response.status === 'success'){
+                const productUpdated = response.product;
+                setProducts(products.map(product=> product.id === productUpdated ? productUpdated : product));
+                setAlert({color: "bg-green-500",message: "Producto Actualizado"});
+            }
+            setIsModalOpen(false);
+        } catch (error) {
+            const err = error as AxiosError<LoginApiResponse>;
+            console.log(error)
+            if (err.response?.data?.message) {
+            setAlert({color: "bg-red-500",message: err.response.data.message});
+            } else {
+            setAlert({color: "bg-red-500",message: "Error desconocido.",});
+            } 
+        }finally{
+            setTimeout(() => {
+                setAlert({color: '',message: ''});
+            }, 2000);
+        }
+    }
+
     const filteredProducts = selectedCategory
         ? products.filter((product) => product.categoryId === parseInt(selectedCategory))
         : products;
@@ -98,14 +137,9 @@ const ListaProductos = () => {
     </div>
 
     {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-black  flex justify-center items-center z-50">
             <form
-            onSubmit={(e) => {
-                e.preventDefault();
-                // Aquí lógica para enviar actualización
-                console.log("Producto actualizado:", productToEdit);
-                setIsModalOpen(false);
-            }}
+            onSubmit={handletUpdate}
             className="w-full sm:w-full md:w-1/2 lg:w-2/5 xl:w-1/3 bg-gray-700 p-6 rounded shadow-md relative"
             >
             <button
@@ -115,10 +149,11 @@ const ListaProductos = () => {
             >
                 &times;
             </button>
-
-            <h2 className="text-center text-white text-xl font-bold mb-4">
+            {alert.message ?  <Alert alert={alert} /> : 
+            (<h2 className="text-center text-white text-xl font-bold mb-4">
                 Editar producto
-            </h2>
+            </h2>)}
+            
 
             <div className="mt-2">
                 <label className="block text-green-500 font-bold uppercase" htmlFor="productname">
