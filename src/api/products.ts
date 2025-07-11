@@ -15,3 +15,10 @@ export const addProduct= async (product:ProductData)=> {
     
     return res.data;
 }
+
+export const getProducts= async ()=> {
+
+    const res = await axios.post<ApiResponse>(`${URL}/product`);
+    
+    return res.data;
+}

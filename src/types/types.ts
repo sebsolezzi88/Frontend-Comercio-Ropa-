@@ -31,6 +31,10 @@ export interface GetApiCategoriesResponse extends RegisterApiResponse {
     categories: Category[];
 }
 
+export interface GetApiProductsResponse extends RegisterApiResponse{
+    products:Product[];
+}
+
 export interface ProductData {
     
     name: string;
@@ -39,6 +43,11 @@ export interface ProductData {
     categoryId: string;
    
 ​}
+export interface Product extends ProductData{
+    id: number;
+    createdAt: Date;
+    updatedAt: Date;
+}
 
 
 

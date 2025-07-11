@@ -1,6 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import type { Category } from '../types/types';
+import { getCategories } from '../api/categoty';
 
 const ListaProductos = () => {
+
+    const [categories, setCategories] = useState<Category[]>([]); //arreglo para las categorias.
+
+    useEffect(() => {
+        const getCatecoriesFromApi = async () =>{
+          
+          try {
+    
+            const responseCat =  await getCategories();
+            if(responseCat.status === 'success'){
+              setCategories(responseCat.categories);
+            }
+    
+          } catch (error) {
+            console.log(error);
+          }
+        }
+        getCatecoriesFromApi();
+      }, [])
   return (
     <>
        <h2 className='text-2xl'>Productos</h2>
@@ -23,7 +44,7 @@ const ListaProductos = () => {
                 <button className='mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded'>Eliminar</button>
             </div>
         </div>
-        
+
     </div>
     </>
      
