@@ -17,6 +17,9 @@ const ListaProductos = () => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [productToDelete, setProductToDelete] = useState<Product | null>(null);
 
+    //Estado para el agregar variante de producto
+    const [isVariantModalOpen, setIsVariantModalOpen] = useState(false);
+    const [productAddVariant, setProductAddVariant] = useState<Product | null>(null);
 
     //states para editar un producto
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,6 +63,12 @@ const ListaProductos = () => {
         setProductToEdit(product);
         setIsModalOpen(true);
     };
+
+    //Funcion para abrir el modal y agregar una Variante
+    const handleAddVariantClick = (product: Product) =>{
+        setIsVariantModalOpen(true);
+        setProductAddVariant(product);
+    }
     //Funcion para abrir el modal y eliminar
     const handleDeleteClick = (product: Product) => {
         setProductToDelete(product);
@@ -164,9 +173,10 @@ const ListaProductos = () => {
                 <img src={product.urlImage} alt={product.name} />
                 <h4 className='text-xl'>{product.name}</h4>
                 <p>{product.description}</p>
-                <div className='flex gap-2'>
+                <div className='flex flex-col '>
                     <button onClick={() => handleEditClick(product)} className='mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded'>Editar</button>
                     <button onClick={() => handleDeleteClick(product)} className='mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded'>Eliminar</button>
+                    <button onClick={() => handleAddVariantClick(product)} className='mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded'>Agregar Variante</button>
                 </div>
             </div>
         ))}
