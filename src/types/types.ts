@@ -52,6 +52,19 @@ export interface UpdateApiProductResponse extends ApiResponse{
     product: Product;
 }
 
+//-------ProductVariant
+export interface ProductVariant {
+
+    id?: number;
+    productId: number;
+    size: string;
+    stock: number;
+    price: number;
+}
+export interface AddApiProductVariantResponse extends ApiResponse{
+    productVariant: ProductVariant;
+}
+
 
 
 
