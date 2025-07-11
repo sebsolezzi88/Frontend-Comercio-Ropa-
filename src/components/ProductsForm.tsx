@@ -10,7 +10,7 @@ const ProductsForm = () => {
     
     const [categories, setCategories] = useState<Category[]>([]); //arreglo para las categorias.
     const [alert, setAlert] = useState<AlertMessage>({color:'',message:''}); //Estado de mensaje de alerta
-    const [product, setProduct] = useState<ProductData>({name:'',description:'',urlImage:'',categoryId:''}); //Estado del producto
+    const [product, setProduct] = useState<ProductData>({name:'',description:'',urlImage:'',categoryId:null}); //Estado del producto
 
     //Use Effect para obtener las categorias
       useEffect(() => {
@@ -31,7 +31,15 @@ const ProductsForm = () => {
       }, [])
 
     const handletChange = (e:ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>{
-      setProduct({...product,[e.target.name]: e.target.value})
+      
+      const { name, value } = e.target;
+
+      setProduct({
+        ...product,
+        [name]: name === 'categoryId'
+          ? value === '' ? null : parseInt(value)  // convierte a número o null
+          : value
+      });
     }
     const handletSubmit = async (e:FormEvent)=>{
       try {
@@ -41,7 +49,7 @@ const ProductsForm = () => {
           product.name.trim() === '' ||
           product.description.trim() === '' ||
           product.urlImage.trim() === '' ||
-          product.categoryId.trim() === ''
+          product.categoryId === null
         ) {
           setAlert({
             color: 'bg-red-500',
@@ -54,7 +62,7 @@ const ProductsForm = () => {
         const response = await addProduct(product);
         if (response.status === 'success'){
            setAlert({color: "bg-green-500",message: 'Producto Creado'});
-           setProduct({name:'',description:'',urlImage:'',categoryId:''});
+           setProduct({name:'',description:'',urlImage:'',categoryId:null});
         }
 
       } catch (error) {
@@ -96,7 +104,7 @@ const ProductsForm = () => {
 
         <div className="mt-2">
         <label className="block text-green-500 font-bold uppercase" htmlFor="security-password">Categoría</label>
-        <select onChange={handletChange} value={product.categoryId} className='w-full font-bold uppercase' name="categoryId" id="category">
+        <select onChange={handletChange} value={product.categoryId ?? ''} className='w-full font-bold uppercase' name="categoryId" id="category">
           <option  className="bg-white rounded w-full p-2 text-stone-950 font-bold uppercase" value="" >-- Seleccione una categoría ---</option>
           {categories.map(category =>(
              <option className="bg-white text-stone-950 font-bold uppercase" 

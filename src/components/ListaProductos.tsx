@@ -9,6 +9,7 @@ const ListaProductos = () => {
     const [alert, setAlert] = useState<AlertMessage>({});
     const [categories, setCategories] = useState<Category[]>([]); //arreglo para las categorias.
     const [products, setProducts] = useState<Product[]>([]); //arreglo para las categorias.
+    const [selectedCategory, setSelectedCategory] = useState(''); //variable para filtrar categorias
 
     useEffect(() => {
         const getFromApi = async () =>{
@@ -35,12 +36,22 @@ const ListaProductos = () => {
         }
         getFromApi();
       }, [])
+
+    const filteredProducts = selectedCategory
+        ? products.filter((product) => product.categoryId === parseInt(selectedCategory))
+        : products;
   return (
     <>
        <h2 className='text-2xl'>Productos</h2>
        <div className="flex items-center gap-2 my-4">
             <h3 className="text-lg font-semibold">Filtrar por</h3>
-            <select className="font-bold uppercase px-2 py-1 rounded" name="categoryId" id="category">
+            <select 
+                className="font-bold uppercase px-2 py-1 rounded" 
+                name="categoryId" 
+                id="category"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+            >
                 <option value="">Todas</option>
             {categories.map(category =>(
                 <option 
@@ -55,11 +66,12 @@ const ListaProductos = () => {
        
         <div className="flex gap-3 mt-4">
 
-          {products.map( product => (
+          {filteredProducts.map( product => (
             <div className='bg-gray-500 w-50 p-2 '>
                 <img src={product.urlImage} alt={product.name} />
                 <h4 className='text-xl'>{product.name}</h4>
                 <p>{product.description}</p>
+                <p>categoria:{product.categoryId}</p>
                 <div className='flex gap-2'>
                     <button className='mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded'>Editar</button>
                     <button className='mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded'>Eliminar</button>

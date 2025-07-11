@@ -40,7 +40,7 @@ export interface ProductData {
     name: string;
     description: string;
     urlImage: string;
-    categoryId: string;
+    categoryId: number | null;
    
 ​}
 export interface Product extends ProductData{
