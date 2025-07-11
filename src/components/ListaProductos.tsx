@@ -4,6 +4,7 @@ import { getCategories } from '../api/categoty';
 import { deleteProduct, getProducts, updateProduct } from '../api/products';
 import type { AxiosError } from 'axios';
 import Alert from './Alert';
+import ProductVariants from './ProductVariants';
 
 
 const ListaProductos = () => {
@@ -322,6 +323,7 @@ const ListaProductos = () => {
             </div>
         </div>
         )}
+    {isVariantModalOpen && <ProductVariants/>}
     </>
   )
 }
