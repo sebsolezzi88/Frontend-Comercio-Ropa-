@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { ApiResponse, GetApiProductsResponse, Product, ProductData } from "../types/types";
+import type { ApiResponse, GetApiProductsResponse, Product, ProductData, UpdateApiProductResponse } from "../types/types";
 
 const URL:string = import.meta.env.VITE_API_URL;
 
@@ -19,7 +19,7 @@ export const addProduct= async (product:ProductData)=> {
 export const updateProduct= async (product:Product)=> {
     const token = localStorage.getItem("token");
 
-    const res = await axios.put<ApiResponse>(`${URL}/product/${product.id}`, product,{
+    const res = await axios.put<UpdateApiProductResponse>(`${URL}/product/${product.id}`, product,{
       headers: {
         Authorization: `Bearer ${token}`,
       }

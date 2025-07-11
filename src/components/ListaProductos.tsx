@@ -74,7 +74,7 @@ const ListaProductos = () => {
             const response = await updateProduct(productToEdit);
             if(response.status === 'success'){
                 const productUpdated = response.product;
-                setProducts(products.map(product=> product.id === productUpdated ? productUpdated : product));
+                setProducts(products.map(product=> product.id === productUpdated.id ? productUpdated : product));
                 setAlert({color: "bg-green-500",message: "Producto Actualizado"});
             }
             setIsModalOpen(false);
