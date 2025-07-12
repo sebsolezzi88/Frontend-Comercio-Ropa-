@@ -22,6 +22,10 @@ const ListaProductos = () => {
     const [isVariantModalOpen, setIsVariantModalOpen] = useState(false);
     const [productAddVariant, setProductAddVariant] = useState<Product | null>(null);
 
+    //Estado para ver todas las variantes de un producto
+    const [isViewVariantsModalOpen, setIsViewVariantsModalOpen] = useState(false);
+    const [productToViewVariants, setProductToViewVariants] = useState<Product | null>(null);
+
     //states para editar un producto
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [productToEdit, setProductToEdit] = useState<Product>({
@@ -63,7 +67,14 @@ const ListaProductos = () => {
     const handleEditClick = (product: Product) => {
         setProductToEdit(product);
         setIsModalOpen(true);
-    };
+    }
+
+    //Funcion para abrir el modal de ver variantes de un producto
+    const handleViewVariantsClick = (product: Product) => {
+    setProductToViewVariants(product);
+    setIsViewVariantsModalOpen(true);
+    }
+
 
     //Funcion para abrir el modal y agregar una Variante
     const handleAddVariantClick = (product: Product) =>{
