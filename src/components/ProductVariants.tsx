@@ -1,6 +1,7 @@
 import { useState, type ChangeEvent, type Dispatch, type FormEvent, type SetStateAction } from "react";
-import type { AlertMessage, Product, ProductVariant } from "../types/types";
+import type { AlertMessage, ApiResponse, Product, ProductVariant } from "../types/types";
 import Alert from "./Alert"
+import type { AxiosError } from "axios";
 
 interface ProductVariantProps {
   alert:AlertMessage;
@@ -35,17 +36,49 @@ const ProductVariants = ({alert,productAddVariant,setIsVariantModalOpen, setAler
 
   //submit del form
   const handletSubmit =  async(e:FormEvent) =>{
-    e.preventDefault();
-    console.log(productVariant);
+    try {
+      e.preventDefault();
+
+      //Verificar campos
+      if(productVariant.price < 0 || productVariant.stock < 0){
+        setAlertProVari({color: "bg-red-500",message: "Precio y Stock no pueden ser negativos"});
+        return;
+      }
+
+      if(productVariant.size.trim() === ''){
+        setAlertProVari({color: "bg-red-500",message: "Debe ingresar Talle"});
+        return;
+      }
+      if(!productAddVariant?.id){
+        setAlertProVari({color: "bg-red-500",message: `No se logró obtene Id de Prodcucto ${productAddVariant?.name}`});
+        return;
+      }
+
+      console.log('listo para guardar')
+
+    } catch (error) {
+      const err = error as AxiosError<ApiResponse>;
+      console.log(error)
+      if (err.response?.data?.message) {
+        setAlert({color: "bg-red-500",message: err.response.data.message});
+      } else {
+        setAlert({color: "bg-red-500",message: "Error desconocido.",});
+      } 
+    }finally{
+      setTimeout(() => {
+        setAlertProVari({});
+      }, 2000);
+    }
+    
   }
 
 
   return (
     <div className="fixed inset-0 bg-black  flex justify-center items-center z-50">
         <form onSubmit={handletSubmit}  className="w-full sm:w-full md:w-1/2 lg:w-2/5 xl:w-1/3 bg-gray-700 p-6 rounded shadow-md">      
-        {alert.message ?  <Alert alert={alert} /> : 
+        {alertProVari.message ?  <Alert alert={alertProVari} /> : 
         <h2 className="text-center text-white text-xl font-bold mb-4">
-          Agrega nuevos productos
+          Agrega nuevos variantes de producto
         </h2>}
         
         <div className="mt-2">
