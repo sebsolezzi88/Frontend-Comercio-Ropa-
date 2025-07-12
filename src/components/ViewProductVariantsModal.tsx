@@ -39,6 +39,13 @@ const ViewProductVariantsModal = ({productToViewVariants,
         }
         getVariants();
     }, [])
+
+    const handleEditVariant = (variant:ProductVariant) =>{
+
+    }
+    const handleDeleteVariant = (variantId:number|undefined) =>{
+
+    }
     
 
   return (
@@ -59,39 +66,49 @@ const ViewProductVariantsModal = ({productToViewVariants,
   {/* Tabla de variantes */}
     <div className="flex items-start gap-6 flex-wrap md:flex-nowrap">
         {/* Tabla */}
-        <table className="table-auto w-full md:w-3/4 lg:w-2/3 xl:w-1/2 bg-gray-700 text-white rounded overflow-hidden shadow-md">
-            <thead className="bg-green-600">
-            <tr>
-                <th className="p-3 text-left">Talle</th>
-                <th className="p-3 text-left">Cantidad</th>
-                <th className="p-3 text-left">Precio</th>
-                <th className="p-3 text-left">Acción</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr className="border-b border-gray-500">
-                <td className="p-3">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-                <td className="p-3">Malcolm Lockyer</td>
-                <td className="p-3">1961</td>
-                <td className="p-3">
-                <div className="flex gap-2">
-                    <button
-                    type="button"
-                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
-                    >
-                    Editar
-                    </button>
-                    <button
-                    type="button"
-                    className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
-                    >
-                    Eliminar
-                    </button>
-                </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+      
+        {productVariants.length === 0 ? (
+            <p className="text-white text-center mt-4">No hay variantes</p>
+            ) : (
+            <table className="table-auto w-full md:w-3/4 lg:w-2/3 xl:w-1/2 bg-gray-700 text-white rounded overflow-hidden shadow-md">
+                <thead className="bg-green-600">
+                <tr>
+                    <th className="p-3 text-left">Talle</th>
+                    <th className="p-3 text-left">Cantidad</th>
+                    <th className="p-3 text-left">Precio</th>
+                    <th className="p-3 text-left">Acción</th>
+                </tr>
+                </thead>
+                <tbody>
+                {productVariants.map((variant) => (
+                    <tr key={variant.id} className="border-b border-gray-500">
+                    <td className="p-3">{variant.size}</td>
+                    <td className="p-3">{variant.stock}</td>
+                    <td className="p-3">{variant.price}</td>
+                    <td className="p-3">
+                        <div className="flex gap-2">
+                        <button
+                            type="button"
+                            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+                            onClick={() => handleEditVariant(variant)} 
+                        >
+                            Editar
+                        </button>
+                        <button
+                            type="button"
+                            className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
+                            onClick={() => handleDeleteVariant(variant?.id)} 
+                        >
+                            Eliminar
+                        </button>
+                        </div>
+                    </td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+            )}
+        
 
         {/* Formulario */}
         <form className="w-full md:w-1/2 lg:w-2/5 xl:w-1/3 bg-gray-700 p-6 rounded shadow-md">
