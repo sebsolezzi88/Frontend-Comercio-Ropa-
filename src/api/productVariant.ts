@@ -17,6 +17,18 @@ export const addProductVariant= async (product:ProductVariant)=> {
     return res.data;
 }
 
+export const updateProductVariant= async (product:ProductVariant)=> {
+    const token = localStorage.getItem("token");
+
+    const res = await axios.put<AddApiProductVariantResponse>(`${URL}/variant`, product,{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    });
+    
+    return res.data;
+}
+
 export const getProductVariants= async (product:Product)=> {
    
     const res = await axios.get<GetApiProductVariantsResponse>(`${URL}/variant/product/${product.id}`);

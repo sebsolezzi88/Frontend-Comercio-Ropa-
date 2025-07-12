@@ -1,7 +1,7 @@
 import { useEffect, useState, type ChangeEvent, type Dispatch, type FormEvent, type SetStateAction } from "react";
 import type { AlertMessage, ApiResponse, Product, ProductVariant } from "../types/types"
 import Alert from "./Alert";
-import { getProductVariants } from "../api/productVariant";
+import { getProductVariants, updateProductVariant } from "../api/productVariant";
 import type { AxiosError } from "axios";
 
 interface ViewProductVariantsModalProps{
@@ -77,6 +77,22 @@ const ViewProductVariantsModal = ({productToViewVariants,
       if(!variantToEdit?.id){
         setAlert({color: "bg-red-500",message: `No se logró obtene Id de la variante de ${productToViewVariants?.name}`});
         return;
+      }
+
+      try {
+        
+        const response = await updateProductVariant(variantToEdit);
+        console.log(response);
+
+      } catch (error) {
+        
+        const err = error as AxiosError<ApiResponse>;
+        console.log(error);
+        if (err.response?.data?.message) {
+            setAlert({color: "bg-red-500",message: err.response.data.message});
+        } else {
+            setAlert({color: "bg-red-500",message: "Error desconocido.",});
+        } 
       }
     }
     const handleDeleteVariant = (variantId:number|undefined) =>{
