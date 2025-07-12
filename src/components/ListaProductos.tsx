@@ -186,9 +186,26 @@ const ListaProductos = () => {
                 <h4 className='text-xl'>{product.name}</h4>
                 <p>{product.description}</p>
                 <div className='flex flex-col '>
-                    <button onClick={() => handleEditClick(product)} className='mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded'>Editar</button>
-                    <button onClick={() => handleDeleteClick(product)} className='mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded'>Eliminar</button>
-                    <button onClick={() => handleAddVariantClick(product)} className='mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded'>Agregar Variante</button>
+                    <button 
+                        onClick={() => handleEditClick(product)} 
+                        className='mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded'>
+                            Editar
+                    </button>
+                    <button 
+                        onClick={() => handleDeleteClick(product)} 
+                        className='mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded'>
+                            Eliminar
+                    </button>
+                    <button 
+                        onClick={() => handleAddVariantClick(product)} 
+                        className='mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded'>
+                            Agregar Variante
+                    </button>
+                    <button 
+                        onClick={() => handleViewVariantsClick(product)} 
+                        className='mt-4 bg-purple-500 hover:bg-purple-600 text-white font-semibold py-2 px-4 rounded'>
+                        Ver Variantes
+                    </button>
                 </div>
             </div>
         ))}
