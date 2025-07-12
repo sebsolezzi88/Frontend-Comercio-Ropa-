@@ -5,6 +5,7 @@ import { deleteProduct, getProducts, updateProduct } from '../api/products';
 import type { AxiosError } from 'axios';
 import Alert from './Alert';
 import ProductVariants from './ProductVariants';
+import ViewProductVariantsModal from './ViewProductVariantsModal';
 
 
 const ListaProductos = () => {
@@ -359,7 +360,16 @@ const ListaProductos = () => {
         setAlert={setAlert}
         setProductAddVariant={setProductAddVariant}
     />}
+    
+    {isViewVariantsModalOpen &&
+        <ViewProductVariantsModal
+            productToViewVariants={productToViewVariants}
+            setIsViewVariantsModalOpen={setIsViewVariantsModalOpen}
+            setProductToViewVariants={setProductToViewVariants}
+        />
+    }
     </>
+    
   )
 }
 
