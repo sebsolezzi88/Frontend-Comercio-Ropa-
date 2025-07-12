@@ -17,7 +17,6 @@ const ProductVariants = ({alert,productAddVariant,setIsVariantModalOpen, setAler
 
   //cerrar modal
   const handletCloseMoldal = () =>{
-    console.log('cerrando');
     setProductAddVariant(null);
     setIsVariantModalOpen(false);
   }
