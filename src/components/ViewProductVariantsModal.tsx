@@ -1,4 +1,4 @@
-import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
+import { useEffect, useState, type ChangeEvent, type Dispatch, type SetStateAction } from "react";
 import type { AlertMessage, ApiResponse, Product, ProductVariant } from "../types/types"
 import Alert from "./Alert";
 import { getProductVariants } from "../api/productVariant";
@@ -18,6 +18,13 @@ const ViewProductVariantsModal = ({productToViewVariants,
     const [viewFormEdit, setViewFormEdit] = useState(false);
     const [loading, setLoading] = useState(true);
     const [productVariants , setProductVariants] = useState<ProductVariant[]>([]);
+    const [variantToEdit , setVariantToEdit] = useState<ProductVariant>({
+    productId:0,
+    size:'',
+    stock:0,
+    price:0
+  });
+
 
     //UseEffect para recuperar variantes
     useEffect(() => {
@@ -47,7 +54,11 @@ const ViewProductVariantsModal = ({productToViewVariants,
     }, [])
 
     const handleEditVariant = (variant:ProductVariant) =>{
+        setVariantToEdit(variant);
         setViewFormEdit(true);
+    }
+    const handletChange = (e:ChangeEvent<HTMLInputElement>) =>{
+        setVariantToEdit({...variantToEdit,[e.target.name]:e.target.value});
     }
     const handleDeleteVariant = (variantId:number|undefined) =>{
 
@@ -137,6 +148,8 @@ const ViewProductVariantsModal = ({productToViewVariants,
                 type="text"
                 name="size"
                 id="size"
+                value={variantToEdit?.size}
+                onChange={handletChange}
             />
             </div>
 
@@ -150,6 +163,8 @@ const ViewProductVariantsModal = ({productToViewVariants,
                 min={0}
                 name="stock"
                 id="stock"
+                value={variantToEdit?.stock}
+                onChange={handletChange}
             />
             </div>
 
@@ -163,6 +178,8 @@ const ViewProductVariantsModal = ({productToViewVariants,
                 min={0}
                 name="price"
                 id="price"
+                value={variantToEdit?.price}
+                onChange={handletChange}
             />
             </div>
 
