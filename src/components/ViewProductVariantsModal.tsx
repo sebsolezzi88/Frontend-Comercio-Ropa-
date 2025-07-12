@@ -23,7 +23,9 @@ const ViewProductVariantsModal = ({productToViewVariants,
             try {
                 if(productToViewVariants){
                 const response =  await getProductVariants(productToViewVariants)
-                console.log(response);
+                if(response.status ==='success'){
+                    setProductVariants(response.variants);
+                }
             }
             } catch (error) {
                 const err = error as AxiosError<ApiResponse>;
