@@ -1,5 +1,5 @@
-import { useState, type Dispatch, type FormEvent, type SetStateAction } from "react";
-import type { AlertMessage, Product } from "../types/types";
+import { useState, type ChangeEvent, type Dispatch, type FormEvent, type SetStateAction } from "react";
+import type { AlertMessage, Product, ProductVariant } from "../types/types";
 import Alert from "./Alert"
 
 interface ProductVariantProps {
@@ -15,15 +15,28 @@ const ProductVariants = ({alert,productAddVariant,setIsVariantModalOpen, setAler
 
   const [alertProVari, setAlertProVari] = useState<AlertMessage>({});
 
+  const [productVariant, setProductVariant] = useState<ProductVariant>({
+    productId:0,
+    size:'',
+    stock:0,
+    price:0
+  });
+
   //cerrar modal
   const handletCloseMoldal = () =>{
     setProductAddVariant(null);
     setIsVariantModalOpen(false);
   }
 
+  //handletChange de los imputs
+  const handletChange = (e:ChangeEvent<HTMLInputElement>) =>{
+    setProductVariant({...productVariant, [e.target.name]:e.target.value})
+  }
+
   //submit del form
   const handletSubmit =  async(e:FormEvent) =>{
     e.preventDefault();
+    console.log(productVariant);
   }
 
 
@@ -37,17 +50,17 @@ const ProductVariants = ({alert,productAddVariant,setIsVariantModalOpen, setAler
         
         <div className="mt-2">
         <label className="block text-green-500 font-bold uppercase" htmlFor="username">Talle</label>
-        <input  defaultValue=""  className="bg-white rounded w-full p-2 text-stone-950" type="text" name="size" id='size' />
+        <input onChange={handletChange} value={productVariant.size}  className="bg-white rounded w-full p-2 text-stone-950" type="text" name="size" id='size' />
         </div>
 
         <div className="mt-2">
           <label className="block text-green-500 font-bold uppercase" htmlFor="text">Stock</label>
-            <input  defaultValue="" className="bg-white rounded w-full p-2 text-stone-950" type="number" name="stock" />
+            <input onChange={handletChange}  value={productVariant.stock} className="bg-white rounded w-full p-2 text-stone-950" type="number" name="stock" />
         </div>
 
         <div className="mt-2">
           <label className="block text-green-500 font-bold uppercase" htmlFor="text">Precio</label>
-            <input  defaultValue="" className="bg-white rounded w-full p-2 text-stone-950" type="number" name="price" />
+            <input onChange={handletChange}  value={productVariant.price} className="bg-white rounded w-full p-2 text-stone-950" type="number" name="price" />
         </div>
         <button type="button" onClick={handletCloseMoldal} className="mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded w-full">
             Cancelar
