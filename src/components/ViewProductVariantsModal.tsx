@@ -15,6 +15,7 @@ const ViewProductVariantsModal = ({productToViewVariants,
 
     //alerta de errores
     const[ alert, setAlert] = useState<AlertMessage>({});
+    const [viewFormEdit, setViewFormEdit] = useState(false);
     const [loading, setLoading] = useState(true);
     const [productVariants , setProductVariants] = useState<ProductVariant[]>([]);
 
@@ -46,7 +47,7 @@ const ViewProductVariantsModal = ({productToViewVariants,
     }, [])
 
     const handleEditVariant = (variant:ProductVariant) =>{
-
+        setViewFormEdit(true);
     }
     const handleDeleteVariant = (variantId:number|undefined) =>{
 
@@ -117,6 +118,7 @@ const ViewProductVariantsModal = ({productToViewVariants,
         
 
         {/* Formulario */}
+        {viewFormEdit &&
         <form className="w-full md:w-1/2 lg:w-2/5 xl:w-1/3 bg-gray-700 p-6 rounded shadow-md">
             {alert.message ? (
             <Alert alert={alert} />
@@ -166,7 +168,8 @@ const ViewProductVariantsModal = ({productToViewVariants,
 
             <button
             type="button"
-            className="mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded w-full"
+                className="mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded w-full"
+                onClick={()=> setViewFormEdit(false)}
             >
             Cancelar
             </button>
@@ -177,6 +180,7 @@ const ViewProductVariantsModal = ({productToViewVariants,
             Editar Variante
             </button>
         </form>
+        }
         </div>
         
     </div>
