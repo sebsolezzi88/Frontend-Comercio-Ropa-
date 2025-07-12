@@ -323,7 +323,14 @@ const ListaProductos = () => {
             </div>
         </div>
         )}
-    {isVariantModalOpen && <ProductVariants/>}
+    {isVariantModalOpen && 
+    <ProductVariants 
+        alert={alert}
+        productAddVariant ={productAddVariant}
+        setIsModalOpen={setIsModalOpen}
+        setAlert={setAlert}
+        setProductAddVariant={setProductAddVariant}
+    />}
     </>
   )
 }
