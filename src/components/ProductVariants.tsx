@@ -2,6 +2,7 @@ import { useState, type ChangeEvent, type Dispatch, type FormEvent, type SetStat
 import type { AlertMessage, ApiResponse, Product, ProductVariant } from "../types/types";
 import Alert from "./Alert"
 import type { AxiosError } from "axios";
+import { addProductVariant } from "../api/productVariant";
 
 interface ProductVariantProps {
   alert:AlertMessage;
@@ -54,15 +55,35 @@ const ProductVariants = ({alert,productAddVariant,setIsVariantModalOpen, setAler
         return;
       }
 
-      console.log('listo para guardar')
+      const variantToSend = {
+        ...productVariant,
+        productId: productAddVariant.id
+      };
+
+      const response = await addProductVariant(variantToSend);
+      if(response.status==='success'){
+        setAlertProVari({color: "bg-green-500",message: "Variante agregada"});
+        setProductVariant({
+            productId:0,
+            size:'',
+            stock:0,
+            price:0
+          });
+        setTimeout(() => {
+          setAlertProVari({});
+          setProductAddVariant(null);
+          setIsVariantModalOpen(false);
+          
+        }, 1000);
+      }
 
     } catch (error) {
       const err = error as AxiosError<ApiResponse>;
       console.log(error)
       if (err.response?.data?.message) {
-        setAlert({color: "bg-red-500",message: err.response.data.message});
+        setAlertProVari({color: "bg-red-500",message: err.response.data.message});
       } else {
-        setAlert({color: "bg-red-500",message: "Error desconocido.",});
+        setAlertProVari({color: "bg-red-500",message: "Error desconocido.",});
       } 
     }finally{
       setTimeout(() => {
