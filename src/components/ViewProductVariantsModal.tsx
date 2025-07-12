@@ -1,7 +1,8 @@
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
-import type { AlertMessage, Product, ProductVariant } from "../types/types"
+import type { AlertMessage, ApiResponse, Product, ProductVariant } from "../types/types"
 import Alert from "./Alert";
 import { getProductVariants } from "../api/productVariant";
+import type { AxiosError } from "axios";
 
 interface ViewProductVariantsModalProps{
     productToViewVariants:Product | null;
@@ -19,9 +20,19 @@ const ViewProductVariantsModal = ({productToViewVariants,
     //UseEffect para recuperar variantes
     useEffect(() => {
         const getVariants = async () =>{
-            if(productToViewVariants){
-                const responses =  await getProductVariants(productToViewVariants)
-                return;
+            try {
+                if(productToViewVariants){
+                const response =  await getProductVariants(productToViewVariants)
+                console.log(response);
+            }
+            } catch (error) {
+                const err = error as AxiosError<ApiResponse>;
+                console.log(error);
+                if (err.response?.data?.message) {
+                    setAlert({color: "bg-red-500",message: err.response.data.message});
+                } else {
+                    setAlert({color: "bg-red-500",message: "Error desconocido.",});
+                } 
             }
         }
         getVariants();

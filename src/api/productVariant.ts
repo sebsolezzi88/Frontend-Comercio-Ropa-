@@ -19,7 +19,7 @@ export const addProductVariant= async (product:ProductVariant)=> {
 
 export const getProductVariants= async (product:Product)=> {
    
-    const res = await axios.post<GetApiProductVariantsResponse>(`${URL}/variant/product/${product.id}`);
+    const res = await axios.get<GetApiProductVariantsResponse>(`${URL}/variant/product/${product.id}`);
     
     return res.data;
 }
