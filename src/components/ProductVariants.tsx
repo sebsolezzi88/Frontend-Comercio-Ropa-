@@ -55,12 +55,12 @@ const ProductVariants = ({alert,productAddVariant,setIsVariantModalOpen, setAler
 
         <div className="mt-2">
           <label className="block text-green-500 font-bold uppercase" htmlFor="text">Stock</label>
-            <input onChange={handletChange}  value={productVariant.stock} className="bg-white rounded w-full p-2 text-stone-950" type="number" name="stock" />
+            <input onChange={handletChange}  value={productVariant.stock} className="bg-white rounded w-full p-2 text-stone-950" type="number" min={0} name="stock" />
         </div>
 
         <div className="mt-2">
           <label className="block text-green-500 font-bold uppercase" htmlFor="text">Precio</label>
-            <input onChange={handletChange}  value={productVariant.price} className="bg-white rounded w-full p-2 text-stone-950" type="number" name="price" />
+            <input onChange={handletChange}  value={productVariant.price} className="bg-white rounded w-full p-2 text-stone-950" type="number" min={0} name="price" />
         </div>
         <button type="button" onClick={handletCloseMoldal} className="mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded w-full">
             Cancelar
