@@ -64,6 +64,8 @@ export interface ProductVariant {
 export interface AddApiProductVariantResponse extends ApiResponse{
     productVariant: ProductVariant;
 }
+export interface PutApiProductVariantResponse extends AddApiProductVariantResponse{}
+
 export interface GetApiProductVariantsResponse extends ApiResponse{
     variants:ProductVariant[];
 }
