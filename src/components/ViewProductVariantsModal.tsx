@@ -1,4 +1,4 @@
-import { useEffect, useState, type ChangeEvent, type Dispatch, type SetStateAction } from "react";
+import { useEffect, useState, type ChangeEvent, type Dispatch, type FormEvent, type SetStateAction } from "react";
 import type { AlertMessage, ApiResponse, Product, ProductVariant } from "../types/types"
 import Alert from "./Alert";
 import { getProductVariants } from "../api/productVariant";
@@ -59,6 +59,25 @@ const ViewProductVariantsModal = ({productToViewVariants,
     }
     const handletChange = (e:ChangeEvent<HTMLInputElement>) =>{
         setVariantToEdit({...variantToEdit,[e.target.name]:e.target.value});
+    }
+
+    //Submit editar
+    const handletSubmit = async (e:FormEvent)=>{
+        e.preventDefault();
+        //Verificar campos
+      if(variantToEdit.price < 0 || variantToEdit.stock < 0){
+        setAlert({color: "bg-red-500",message: "Precio y Stock no pueden ser negativos"});
+        return;
+      }
+
+      if(variantToEdit.size.trim() === ''){
+        setAlert({color: "bg-red-500",message: "Debe ingresar Talle"});
+        return;
+      }
+      if(!variantToEdit?.id){
+        setAlert({color: "bg-red-500",message: `No se logró obtene Id de la variante de ${productToViewVariants?.name}`});
+        return;
+      }
     }
     const handleDeleteVariant = (variantId:number|undefined) =>{
 
@@ -130,7 +149,7 @@ const ViewProductVariantsModal = ({productToViewVariants,
 
         {/* Formulario */}
         {viewFormEdit &&
-        <form className="w-full md:w-1/2 lg:w-2/5 xl:w-1/3 bg-gray-700 p-6 rounded shadow-md">
+        <form onSubmit={handletSubmit} className="w-full md:w-1/2 lg:w-2/5 xl:w-1/3 bg-gray-700 p-6 rounded shadow-md">
             {alert.message ? (
             <Alert alert={alert} />
             ) : (
