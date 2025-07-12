@@ -15,6 +15,7 @@ const ViewProductVariantsModal = ({productToViewVariants,
 
     //alerta de errores
     const[ alert, setAlert] = useState<AlertMessage>({});
+    const [loading, setLoading] = useState(true);
     const [productVariants , setProductVariants] = useState<ProductVariant[]>([]);
 
     //UseEffect para recuperar variantes
@@ -23,8 +24,10 @@ const ViewProductVariantsModal = ({productToViewVariants,
             try {
                 if(productToViewVariants){
                 const response =  await getProductVariants(productToViewVariants)
-                if(response.status ==='success'){
+                if (response.status === 'success' && Array.isArray(response.variants)) {
                     setProductVariants(response.variants);
+                } else {
+                    setProductVariants([]); 
                 }
             }
             } catch (error) {
@@ -35,6 +38,8 @@ const ViewProductVariantsModal = ({productToViewVariants,
                 } else {
                     setAlert({color: "bg-red-500",message: "Error desconocido.",});
                 } 
+            }finally{
+                setLoading(false);
             }
         }
         getVariants();
@@ -47,6 +52,7 @@ const ViewProductVariantsModal = ({productToViewVariants,
 
     }
     
+  if(loading) return <h3 className="text-white text-2xl font-bold">Loading...</h3>
 
   return (
     <div className="fixed inset-0 bg-gray-600 flex flex-col justify-center items-center z-50 p-4">
@@ -56,7 +62,7 @@ const ViewProductVariantsModal = ({productToViewVariants,
             </h3>
             <button
                 type="button"
-                onClick={() => setIsViewVariantsModalOpen(false)} // <-- si estás usando ese state
+                onClick={() => setIsViewVariantsModalOpen(false)} 
                 className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded"
             >
                 Cerrar
@@ -67,7 +73,7 @@ const ViewProductVariantsModal = ({productToViewVariants,
     <div className="flex items-start gap-6 flex-wrap md:flex-nowrap">
         {/* Tabla */}
       
-        {productVariants.length === 0 ? (
+        {Array.isArray(productVariants) && productVariants.length === 0 ? (
             <p className="text-white text-center mt-4">No hay variantes</p>
             ) : (
             <table className="table-auto w-full md:w-3/4 lg:w-2/3 xl:w-1/2 bg-gray-700 text-white rounded overflow-hidden shadow-md">
