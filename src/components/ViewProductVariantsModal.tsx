@@ -1,6 +1,7 @@
-import { useState, type Dispatch, type SetStateAction } from "react";
-import type { AlertMessage, Product } from "../types/types"
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
+import type { AlertMessage, Product, ProductVariant } from "../types/types"
 import Alert from "./Alert";
+import { getProductVariants } from "../api/productVariant";
 
 interface ViewProductVariantsModalProps{
     productToViewVariants:Product | null;
@@ -11,8 +12,21 @@ interface ViewProductVariantsModalProps{
 const ViewProductVariantsModal = ({productToViewVariants,
     setIsViewVariantsModalOpen,setProductToViewVariants}:ViewProductVariantsModalProps) => {
 
-        //alerta de errores
-        const[ alert, setAlert] = useState<AlertMessage>({});
+    //alerta de errores
+    const[ alert, setAlert] = useState<AlertMessage>({});
+    const [productVariants , setProductVariants] = useState<ProductVariant[]>([]);
+
+    //UseEffect para recuperar variantes
+    useEffect(() => {
+        const getVariants = async () =>{
+            if(productToViewVariants){
+                const responses =  await getProductVariants(productToViewVariants)
+                return;
+            }
+        }
+        getVariants();
+    }, [])
+    
 
   return (
     <div className="fixed inset-0 bg-gray-600 flex flex-col justify-center items-center z-50 p-4">
