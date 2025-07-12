@@ -5,20 +5,21 @@ import Alert from "./Alert"
 interface ProductVariantProps {
   alert:AlertMessage;
   productAddVariant: Product | null;
-  setIsModalOpen:Dispatch<SetStateAction<boolean>>;
+  setIsVariantModalOpen:Dispatch<SetStateAction<boolean>>;
   setAlert: Dispatch<SetStateAction<AlertMessage>>;
   setProductAddVariant: Dispatch<SetStateAction<Product | null>>;
 }
 
 
-const ProductVariants = ({alert,productAddVariant,setIsModalOpen, setAlert,setProductAddVariant}:ProductVariantProps) => {
+const ProductVariants = ({alert,productAddVariant,setIsVariantModalOpen, setAlert,setProductAddVariant}:ProductVariantProps) => {
 
   const [alertProVari, setAlertProVari] = useState<AlertMessage>({});
 
   //cerrar modal
   const handletCloseMoldal = () =>{
+    console.log('cerrando');
     setProductAddVariant(null);
-    setIsModalOpen(false);
+    setIsVariantModalOpen(false);
   }
 
   //submit del form
@@ -37,22 +38,22 @@ const ProductVariants = ({alert,productAddVariant,setIsModalOpen, setAlert,setPr
         
         <div className="mt-2">
         <label className="block text-green-500 font-bold uppercase" htmlFor="username">Talle</label>
-        <input  value={''}  className="bg-white rounded w-full p-2 text-stone-950" type="text" name="size" id='size' />
+        <input  defaultValue=""  className="bg-white rounded w-full p-2 text-stone-950" type="text" name="size" id='size' />
         </div>
 
         <div className="mt-2">
           <label className="block text-green-500 font-bold uppercase" htmlFor="text">Stock</label>
-            <input  value={''} className="bg-white rounded w-full p-2 text-stone-950" type="number" name="stock" />
+            <input  defaultValue="" className="bg-white rounded w-full p-2 text-stone-950" type="number" name="stock" />
         </div>
 
         <div className="mt-2">
           <label className="block text-green-500 font-bold uppercase" htmlFor="text">Precio</label>
-            <input  value={''} className="bg-white rounded w-full p-2 text-stone-950" type="number" name="price" />
+            <input  defaultValue="" className="bg-white rounded w-full p-2 text-stone-950" type="number" name="price" />
         </div>
-        <button onClick={handletCloseMoldal} className="mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded w-full">
+        <button type="button" onClick={handletCloseMoldal} className="mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded w-full">
             Cancelar
         </button>
-        <button className="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded w-full">
+        <button type="submit" className="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded w-full">
             Guardar Variante
         </button>
 
