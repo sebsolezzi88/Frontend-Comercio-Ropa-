@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Mian = () => {
+const Main = () => {
   return (
    <main className="p-4 text-center bg-gray-900 text-white">
     <h1 className="text-3xl font-bold mb-4">¡Bienvenido a GeekStore!</h1>
@@ -14,4 +14,4 @@ const Mian = () => {
   )
 }
 
-export default Mian
+export default Main
