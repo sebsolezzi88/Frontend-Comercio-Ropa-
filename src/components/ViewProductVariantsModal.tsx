@@ -58,7 +58,12 @@ const ViewProductVariantsModal = ({productToViewVariants,
         setViewFormEdit(true);
     }
     const handletChange = (e:ChangeEvent<HTMLInputElement>) =>{
-        setVariantToEdit({...variantToEdit,[e.target.name]:e.target.value});
+        const { name, value } = e.target;
+
+        setVariantToEdit((prev) => ({
+            ...prev,
+            [name]: name === "stock" || name === "price" ? Number(value) : value
+        }));
     }
 
     //Submit editar
@@ -82,10 +87,14 @@ const ViewProductVariantsModal = ({productToViewVariants,
       try {
         
         const response = await updateProductVariant(variantToEdit);
-        console.log(response);
+        if(response.status==='success'){
+            setProductVariants( productVariants.map(variant =>variant.id === variantToEdit.id ? response.productVariant : variant));
+            setAlert({color: "bg-green-500",message: "Variante Actualizada.",});
+        }
+        
 
       } catch (error) {
-        
+
         const err = error as AxiosError<ApiResponse>;
         console.log(error);
         if (err.response?.data?.message) {
@@ -93,6 +102,12 @@ const ViewProductVariantsModal = ({productToViewVariants,
         } else {
             setAlert({color: "bg-red-500",message: "Error desconocido.",});
         } 
+      }
+      finally{
+        setTimeout(() => {
+            setAlert({});
+            setViewFormEdit(false);
+        }, 2000);
       }
     }
     const handleDeleteVariant = (variantId:number|undefined) =>{
