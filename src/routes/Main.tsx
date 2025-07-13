@@ -1,6 +1,36 @@
-import React from 'react'
+import  { useEffect, useState } from 'react'
+import type { LoginApiResponse, Product } from '../types/types';
+import type { AxiosError } from 'axios';
+import { getProducts } from '../api/products';
 
 const Main = () => {
+  
+  const [products, setProducts] = useState<Product[]>([]);
+
+   useEffect(() => {
+          const getProductsFromApi = async () =>{
+            
+            try {
+      
+              const responsePro = await getProducts();
+              if(responsePro.status === 'success' && responsePro.status === 'success'){
+                setProducts(responsePro.products);
+  
+              }
+      
+            } catch (error) {
+              const err = error as AxiosError<LoginApiResponse>;
+              console.log(error);
+              if (err.response?.data?.message) {
+                  console.log({message: err.response.data.message});
+              } else {
+                  console.log({message: "Error desconocido.",});
+              } 
+            }
+          }
+          getProductsFromApi();
+        }, [])
+
   return (
    <>
       <main className="mt-5 p-4 text-center bg-gray-900 text-white">
