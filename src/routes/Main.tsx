@@ -46,20 +46,18 @@ const Main = () => {
       <section className="p-4 bg-gray-800 text-white">
         <h2 className="text-2xl font-bold mb-4">Nuestros Productos</h2>
   
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-  
-          <article className="bg-gray-700 p-4 rounded shadow-md">
-            <img src="remera-linux.jpg" alt="Remera Linux" className="w-full h-auto rounded mb-2" />
-            <h3 className="text-xl font-semibold">Remera Linux</h3>
-            <p className="text-green-400 font-bold">$3500</p>
-          </article>
+        <div className="grid md:grid-cols-2 lg:grid-cols-6 gap-6">
 
-          <article className="bg-gray-700 p-4 rounded shadow-md">
-            <img src="buzo-windows.jpg" alt="Buzo Windows" className="w-full h-auto rounded mb-2" />
-            <h3 className="text-xl font-semibold">Buzo Windows</h3>
-            <p className="text-green-400 font-bold">$4800</p>
-          </article>
-    
+          {
+            products.map(product =>(
+              <article className="bg-gray-700 p-4 rounded shadow-md">
+                <img src={product.urlImage} alt={product.name} className="w-full md:h-auto lg:h-50 rounded mb-2" />
+                <h3 className="text-xl font-semibold">{product.name}</h3>
+                <p className="text-green-400 font-bold">{"product"}</p>
+                <button className="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded w-full">Ver talles</button>
+             </article>
+            ))
+          }
     
         </div>
       </section>
