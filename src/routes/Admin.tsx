@@ -5,7 +5,7 @@ import ProductsForm from "../components/ProductsForm";
 import ListaProductos from "../components/ListaProductos";
 
 const Admin = () => {
-    const [view, setView] = useState("products");
+    const [view, setView] = useState("listproducts");
 
 
   return (
