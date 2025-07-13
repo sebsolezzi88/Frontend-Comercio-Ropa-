@@ -6,6 +6,7 @@ import Login from './routes/Login'
 import Navbar from './components/Navbar'
 import Admin from './routes/Admin'
 import ProtectedRoute from './components/ProtectedRoute'
+import Main from './routes/Main'
 
 function App() {
  
