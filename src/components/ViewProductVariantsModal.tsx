@@ -1,7 +1,7 @@
 import { useEffect, useState, type ChangeEvent, type Dispatch, type FormEvent, type SetStateAction } from "react";
 import type { AlertMessage, ApiResponse, Product, ProductVariant } from "../types/types"
 import Alert from "./Alert";
-import { getProductVariants, updateProductVariant } from "../api/productVariant";
+import { deleteProductVariant, getProductVariants, updateProductVariant } from "../api/productVariant";
 import type { AxiosError } from "axios";
 
 interface ViewProductVariantsModalProps{
@@ -110,9 +110,37 @@ const ViewProductVariantsModal = ({productToViewVariants,
         }, 2000);
       }
     }
-    const handleDeleteVariant = (variantId:number|undefined) =>{
+    const handleDeleteVariant = async (variantId:number|undefined) =>{
+        
+      try {
+            if(!variantId){
+            setAlert({color: "bg-red-500",message: `No se logró obtene Id de la variante`});
+            return;
+        }
+        const response = await deleteProductVariant(variantId);
+        if(response.status==='success'){
+            setProductVariants( productVariants.filter(variant =>variant.id !== variantId));
+            setAlert({color: "bg-green-500",message: "Variante Borrada.",});
+        }
+        
 
+      } catch (error) {
+
+        const err = error as AxiosError<ApiResponse>;
+        console.log(error);
+        if (err.response?.data?.message) {
+            setAlert({color: "bg-red-500",message: err.response.data.message});
+        } else {
+            setAlert({color: "bg-red-500",message: "Error desconocido.",});
+        } 
+      }
+      finally{
+        setTimeout(() => {
+            setAlert({});
+        }, 4000);
+      }
     }
+    
     
   if(loading) return <h3 className="text-white text-2xl font-bold">Loading...</h3>
 
@@ -122,6 +150,11 @@ const ViewProductVariantsModal = ({productToViewVariants,
             <h3 className="text-white text-2xl font-bold">
                 Variantes del Producto: {productToViewVariants?.name}
             </h3>
+            {alert.message && 
+            <div className="fixed inset-0 bg-gray-600 flex flex-col justify-center items-center z-50 p-4">
+                <Alert alert={alert} />
+            </div>
+            }
             <button
                 type="button"
                 onClick={() => setIsViewVariantsModalOpen(false)} 
